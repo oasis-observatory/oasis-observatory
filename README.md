@@ -1,4 +1,6 @@
-## Hi there 👋
+# Open ASI Scenario Observatory v0.1 / OASIS Observatory v0.1
+
+This project simulates the development and trajectories of Artificial Superintelligence (ASI) systems by generating narrative scenarios and tracking real-world AI development signals.
 
 <!--
 **oasis-observatory/OASIS-observatory** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
