@@ -23,6 +23,10 @@ Policymakers           Simulate governance responses	  Overlay scenarios with po
 Educators              Teach foresight and alignment	  Classroom scenario analysis
 Data Scientists        Integrate into dashboards	      Build visual analytics
 ```
+## Ethics and Transparency Statement
+OASIS promotes open, transparent modeling of AI futures without speculative hype.
+All generated data follows a clear provenance model, tracks the generator identity, and includes confidence and uncertainty metrics.
+
 ## Structure
 - `oasis_generator/`: Generate and store ASI scenario narratives.
 - `oasis_tracker_lite/`: Extract real-world precursors.
