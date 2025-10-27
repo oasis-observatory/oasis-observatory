@@ -6,7 +6,7 @@ This project simulates the development and trajectories of Artificial Superintel
 
 ---
 ## Mission Statement
-OASIS Observatory is an open research initiative that models potential trajectories of Artificial Superintelligence (ASI). Using structured schema-based scenarios, OASIS generates and analyzes foresight data to support policymakers, researchers, and AI safety practitioners in anticipating high-impact futures.
+OASIS Observatory is an open research initiative that models potential trajectories of Artificial Superintelligence (ASI). Using structured schema-based scenarios, OASIS Observatory generates and analyzes foresight data to support policymakers, researchers, and AI safety practitioners in anticipating high-impact futures.
 
 ## Team
 OASIS is developed by a multidisciplinary team combining **philosophy of technology**, **systems engineering**, and **foresight methodology**.
