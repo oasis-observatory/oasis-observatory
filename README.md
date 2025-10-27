@@ -1,9 +1,9 @@
-# Open Artificial Superintelligence Scenario Observatory v0.1 / OASIS Observatory v0.1
-
-This project simulates the development and trajectories of Artificial Superintelligence (ASI) systems by generating narrative scenarios and tracking real-world AI development signals.
+# Open Artificial Superintelligence Scenario Observatory v0.1
+# OASIS Observatory v0.1
 ---
-## Structure
+This project simulates the development and trajectories of Artificial Superintelligence (ASI) systems by generating narrative scenarios and tracking real-world AI development signals.
 
+## Structure
 - `oasis_generator/`: Generate and store ASI scenario narratives.
 - `oasis_tracker_lite/`: Extract real-world precursors.
 - `oasis_dashboard_lite/`: Assess probabilities and map the scenario landscape based on the precursor strengths, generate reports and visualizations.
