@@ -14,7 +14,7 @@ OASIS is developed by a multidisciplinary team combining **philosophy of technol
 | Role | Name | Bio |
 |------|------|-----|
 | **Founder & Lead Architect** | **Mikhail Bukhtoyarov** | Philosopher and Digital Humanities researcher. Teaches **Philosophy and Critical Thinking**. Research spans **Philosophy of Technology**, **Social & Political Philosophy**, **Educational Technology**, and **Digital Humanities**. Author of the foundational series of posts on Medium *[https://medium.com/@mikhailbukhtoyarov/]*, which introduced LLM-assisted ASI archetype modeling and precursor tracking. Leads open-source development of OASIS Observatory to enable transparent, reproducible superintelligence foresight. <br>🔗 [PhilPeople](https://philpeople.org/profiles/mikhail-bukhtoyarov) · [Google Scholar](https://scholar.google.com/citations?hl=en&user=QRT8P_cAAAAJ&view_op=list_works&sortby=pubdate) · [ORCID](https://orcid.org/0000-0002-0627-3048) · [Medium](https://medium.com/@mikhailbukhtoyarov) · [LinkedIn](https://www.linkedin.com/in/mikebukhtoyarov/) |
-| **Core Contributor** | **(Name TBD)** | **Development Lead** — architecting the real-time precursor signal pipeline in `oasis-tracker-lite`. Full bio forthcoming. |
+| **Core Contributor** | **(Name TBD)** | **Development Lead** — architecting the project modules. Full bio forthcoming. |
 | **Core Contributor** | **(Name TBD)** | **Legal & Organizational Support Lead** — ensuring governance, licensing, and institutional alignment. Full bio forthcoming. |
 
 > **Note**: Google Scholar and ORCID profiles are live and will be updated with OASIS methodology publications (in progress).  
