@@ -17,12 +17,12 @@ OASIS Observatory is an open research initiative that models potential trajector
 - Evidence layer – Allows inclusion of real-world signals and indicators.
 
 ## Potential Use Cases
-
+```
 Researchers            Study ASI risk patterns            Compare scenarios by autonomy/confidence
 Policymakers           Simulate governance responses	  Overlay scenarios with policy interventions
 Educators              Teach foresight and alignment	  Classroom scenario analysis
 Data Scientists        Integrate into dashboards	      Build visual analytics
-
+```
 ## Structure
 - `oasis_generator/`: Generate and store ASI scenario narratives.
 - `oasis_tracker_lite/`: Extract real-world precursors.
