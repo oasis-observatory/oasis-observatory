@@ -3,7 +3,25 @@
 
 ---
 This project simulates the development and trajectories of Artificial Superintelligence (ASI) systems by generating narrative scenarios and tracking real-world AI development signals.
+
 ---
+## Mission Statement
+OASIS Observatory is an open research initiative that models potential trajectories of Artificial Superintelligence (ASI). Using structured schema-based scenarios, OASIS generates and analyzes foresight data to support policymakers, researchers, and AI safety practitioners in anticipating high-impact futures.
+
+## Core Features
+
+- Structured foresight schema – JSON Schema defining ASI scenarios across origin, architecture, goals, and impact.
+- Quantitative + narrative integration – Combines probability fields with narrative timelines.
+- Model provenance tracking – Records which AI model or generator produced each scenario.
+- Open governance dataset – Designed for interoperability with policy simulations and foresight dashboards.
+- Evidence layer – Allows inclusion of real-world signals and indicators.
+
+## Potential Use Cases
+
+Researchers            Study ASI risk patterns            Compare scenarios by autonomy/confidence
+Policymakers           Simulate governance responses	  Overlay scenarios with policy interventions
+Educators              Teach foresight and alignment	  Classroom scenario analysis
+Data Scientists        Integrate into dashboards	      Build visual analytics
 
 ## Structure
 - `oasis_generator/`: Generate and store ASI scenario narratives.
