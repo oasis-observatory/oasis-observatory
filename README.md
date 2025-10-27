@@ -31,7 +31,7 @@ python multi_asi_scenario_/generate_batch.py
 
 ## File Structure
 ```
-OASIS_observatory/
+oasis_observatory/
 ├── README.md                            # Project overview, setup instructions, usage
 ├── requirements.txt                     # Python dependencies for entire project
 ├── main.py                               # (Optional) CLI or central orchestration entry point
@@ -39,7 +39,7 @@ OASIS_observatory/
 ├── common/                              # Shared utilities and helpers across all modules
 │   └── logger.py                        # Logging setup and wrappers
 │
-├── generator/              # Module: generates narrative scenarios of ASI systems
+├── oasis_generator/              # Module: generates narrative scenarios of ASI systems
 │   ├── config/
 │   │   └── asi_scenario_schema.json     # JSON schema definition for validating scenario structure
 │   ├── utils/
@@ -55,10 +55,10 @@ OASIS_observatory/
 │   └── ollama_multi_asi_client.py       # Ollama LLM interface for multi-ASI narratives
 ```
 ---
-###TODO
+### TODO
 ```
 │
-├── precursor_tracker/              # Module: tracks real-world precursors to ASI emergence
+├── oasis_tracker/              # Module: tracks real-world precursors to ASI emergence
 │   ├── config/
 │   │   ├── hf_model_list.jsonc          # List of Hugging Face models to monitor
 │   │   └── precursor_signal.jsonc       # Signal definitions and keywords for classification
@@ -91,6 +91,7 @@ OASIS_observatory/
 - Python 3.8+
 - Ollama installed and configured locally (used for LLM inference)
 - SQLite3
+---
 
 ## MIT License
 
