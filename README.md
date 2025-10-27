@@ -22,9 +22,9 @@ python multi_asi_scenario_/generate_batch.py
 
 
 ## TODO
-- [ ] Add more LLM agents for better scenario generation and evaluation
 - [x] Add JSON schema for validation
-- [ ] Expand signal parsers
+- [ ] Add more LLM agents for better scenario generation and evaluation
+- [ ] Design signal parsers
 - [ ] Link scenarios to real-world precursor signals, using multiagent precursor and scenario
 - [ ] Develop a probability assessment module
 
@@ -34,37 +34,36 @@ python multi_asi_scenario_/generate_batch.py
 oasis_observatory/
 ├── README.md                            # Project overview, setup instructions, usage
 ├── requirements.txt                     # Python dependencies for entire project
-├── main.py                               # (Optional) CLI or central orchestration entry point
 │
-├── common/                              # Shared utilities and helpers across all modules
-│   └── logger.py                        # Logging setup and wrappers
-│
-├── oasis_generator/              # Module: generates narrative scenarios of ASI systems
+├── oasis_generator/                     # Module: generates narrative scenarios of ASI systems
 │   ├── config/
 │   │   └── asi_scenario_schema.json     # JSON schema definition for validating scenario structure
 │   ├── utils/
 │   │   └── abbreviator.py               # Utility to generate shortened ASI scenario titles
-│   ├── single_asi_scenario.py             # Main script to generate a single scenario
-│   ├── single_asi_batch.py                # Batch scenario generation utility
+│   ├── single_asi_scenario.py           # Main script to generate a single scenario
+│   ├── single_asi_batch.py              # Batch scenario generation utility
 │   ├── parameter_sampler.py             # Defines how scenario parameters are randomly or manually sampled
-│   ├── single_asi_database.py                      # Handles SQLite operations for scenario storage
-│   ├── single_asi_ollama_client.py                 # Connects to local Ollama LLM for single-agent narratives
-│   ├── multi_asi_scenario.py            # Generator logic for multi-agent (multi-ASI) scenario narratives
-│   ├── multi_asi_database.py            # Separate database logic for multi-ASI scenarios
-│   ├── validate_scenario.py              # JSON schema validation utility (v1)
-│   └── ollama_multi_asi_client.py       # Ollama LLM interface for multi-ASI narratives
+│   ├── single_asi_database.py           # Handles SQLite operations for sinle-ASI scenarios storage at asi_scenarios.db
+│   ├── single_asi_ollama_client.py      # Connects to local Ollama LLM for single-ASI scenarios
+│   ├── multi_asi_scenario.py            # Generator logic for multi-agent (multi-ASI) scenario narratives based on the single-ASI scenarios from asi_scenarios.db
+│   ├── multi_asi_database.py            # Handles SQLite operations for multu-ASI scenarios storage at multi_asi_scenarios.db
+│   └── ollama_multi_asi_client.py       # Connects to local Ollama LLM for multi-ASI scenarios
 ```
 ---
 ### TODO
 ```
 │
-├── oasis_tracker/              # Module: tracks real-world precursors to ASI emergence
+├── main.py                              # (Optional) CLI or central orchestration entry point
+├── common/                              # Shared utilities and helpers across all modules
+│   └── logger.py                        # Logging setup and wrappers
+│
+├── oasis_tracker/                       # Module: tracks real-world precursors to ASI emergence
 │   ├── config/
 │   │   ├── hf_model_list.jsonc          # List of Hugging Face models to monitor
 │   │   └── precursor_signal.jsonc       # Signal definitions and keywords for classification
 │   ├── extractor.py                     # Orchestrator for extracting and classifying signals
-│   ├── parser_A.py                # Extracts relevant signals
-│   ├── parser_B.py            # Extracts relevant signals
+│   ├── parser_A.py                      # Extracts relevant signals
+│   ├── parser_B.py                      # Extracts relevant signals
 │   ├── precursor_db.py                  # Manages signal storage in SQLite database
 │   └── signal_classifier.py             # Classifies project metadata into scenario features
 │
