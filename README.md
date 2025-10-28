@@ -74,21 +74,20 @@ python multi_asi_scenario_/generate_batch.py
 oasis_observatory/
 ├── README.md                            # Project overview, setup instructions, usage
 │
-├── oasis_generator/                     # Module: generates narrative scenarios of ASI systems
-│   ├── config/
-│   │   └── asi_scenario_schema.json     # JSON schema definition for validating scenario structure
-│   ├── utils/
-│   │   └── abbreviator.py               # Utility to generate shortened ASI scenario titles
-│   ├── requirements.txt                 # Python dependencies for the module
-│   ├── multi_asi_database.py            # Handles SQLite operations for multu-ASI scenarios storage at multi_asi_scenarios.db
-│   ├── multi_asi_ollama_client.py       # Connects to local Ollama LLM for multi-ASI scenarios
-│   ├── multi_asi_scenario.py            # Generator logic for multi-agent (multi-ASI) scenario narratives based on the single-ASI scenarios from asi_scenarios.db
-│   ├── parameter_sampler.py             # Defines how scenario parameters are randomly or manually sampled
-│   ├── single_asi_batch.py              # Batch scenario generation utility
-│   ├── single_asi_database.py           # Handles SQLite operations for sinle-ASI scenarios storage at asi_scenarios.db
-│   ├── single_asi_ollama_client.py      # Connects to local Ollama LLM for single-ASI scenarios
-│   └── single_asi_scenario.py           # Main script to generate a single scenario
-│
+generator/
+├── config/
+│   └── asi_scenario_schema.json       # JSON schema definition for validating scenario structure
+├── utils/
+│   └── abbreviator.py                 # Utility to generate shortened ASI scenario titles
+├── generate_batch.py                  # Batch scenario generation utility
+├── multi_asi_scenario.py              # Generator logic for multi-agent (multi-ASI) scenario narratives based on the single-ASI scenarios from asi_scenarios.db
+├── multi_asi_ollama_client.py         # Connects to local Ollama LLM for multi-ASI scenarios
+├── multi_asi_database.py              # Handles SQLite operations for multu-ASI scenarios storage at multi_asi_scenarios.db
+├── parameter_sampler.py               # Defines how scenario parameters are randomly or manually sampled
+├── single_asi_scenario.py             # Main script to generate a single ASI scenario
+├── single_asi_ollama_client.py        # Connects to local Ollama LLM for single-ASI scenarios
+├── single_asi_database.py             # Handles SQLite operations for sinle-ASI scenarios storage at asi_scenarios.db
+└── ...
 ```
 ---
 ### TODO
