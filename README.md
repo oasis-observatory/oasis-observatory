@@ -100,7 +100,6 @@ generator/
 │
 ├── oasis_tracker/                       # Module: tracks real-world precursors to ASI emergence
 │   ├── config/
-│   │   ├── hf_model_list.jsonc          # List of Hugging Face models to monitor
 │   │   └── precursor_signal.jsonc       # Signal definitions and keywords for classification
 │   ├── extractor.py                     # Orchestrator for extracting and classifying signals
 │   ├── parser_A.py                      # Extracts relevant signals
