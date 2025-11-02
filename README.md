@@ -1,151 +1,275 @@
-# Open Artificial Superintelligence Scenario Observatory v0.1
-# OASIS Observatory v0.1
-
----
-This project simulates the development and trajectories of Artificial Superintelligence (ASI) systems by generating narrative scenarios and tracking real-world AI development signals.
-
----
-## Mission Statement
-OASIS Observatory is an open research initiative that models potential trajectories of Artificial Superintelligence (ASI). Using structured schema-based scenarios, OASIS Observatory generates and analyzes foresight data to support policymakers, researchers, and AI safety practitioners in anticipating high-impact futures.
-
-## Team
-OASIS is developed by a multidisciplinary team combining **philosophy of technology**, **systems engineering**, and **foresight methodology**.
-
-| Role | Name | Bio |
-|------|------|-----|
-| **Founder & Lead Architect** | **Mikhail Bukhtoyarov** | Philosopher and Digital Humanities researcher. Teaches **Philosophy and Critical Thinking**. Research spans **Philosophy of Technology**, **Social & Political Philosophy**, **Educational Technology**, and **Digital Humanities**. Author of the foundational series of posts on Medium *[https://medium.com/@mikhailbukhtoyarov/]*, which introduced LLM-assisted ASI archetype modeling and precursor tracking. Leads open-source development of OASIS Observatory to enable transparent, reproducible superintelligence foresight. <br>🔗 [PhilPeople](https://philpeople.org/profiles/mikhail-bukhtoyarov) · [Google Scholar](https://scholar.google.com/citations?hl=en&user=QRT8P_cAAAAJ&view_op=list_works&sortby=pubdate) · [ORCID](https://orcid.org/0000-0002-0627-3048) · [Medium](https://medium.com/@mikhailbukhtoyarov) · [LinkedIn](https://www.linkedin.com/in/mikebukhtoyarov/) |
-| **Core Contributor** | **(Name TBD)** | **Development Lead** — architecting the project modules. Full bio forthcoming. |
-| **Core Contributor** | **(Name TBD)** | **Legal & Organizational Support Lead** — ensuring governance, licensing, and institutional alignment. Full bio forthcoming. |
-
-> **Note**: Google Scholar and ORCID profiles are live and will be updated with OASIS methodology publications (in progress).  
-> Want to contribute or be publicly credited? Open an Issue or join [Discussions](https://github.com/oasis-observatory/oasis-observatory/discussions).
-
----
-*Transparency and rigor are non-negotiable when modeling futures that matter.*
 ---
 
-## Core Features of the Project
+# 🌌 **Open Artificial Superintelligence Scenario Observatory (OASIS Observatory v0.1)**
 
-- Structured foresight schema – JSON Schema defining ASI scenarios across origin, architecture, goals, and impact.
-- Quantitative + narrative integration – Combines probability fields with narrative timelines.
-- Model provenance tracking – Records which AI model or generator produced each scenario.
-- Open governance dataset – Designed for interoperability with policy simulations and foresight dashboards.
-- Evidence layer – Allows inclusion of real-world signals and indicators.
+---
 
-## Potential Use Cases
+## Overview
+
+**OASIS Observatory** is an open research platform that **simulates, tracks, and visualizes trajectories of Artificial Superintelligence (ASI)**.
+It integrates narrative foresight, real-world data signals, and transparent model provenance to help researchers, policymakers, and AI safety practitioners **anticipate high-impact futures**.
+
+---
+
+## 🧭 Mission Statement
+
+> *“Transparency and rigor are non-negotiable when modeling futures that matter.”*
+
+OASIS Observatory applies **schema-based foresight modeling** and **multi-agent simulation** to explore the emergence, coordination, and risks of advanced AI systems.
+It aims to provide a reproducible, explainable foundation for **superintelligence governance research** and **ethical AI forecasting**.
+
+---
+
+## 🧠 Core Features
+
+* **Structured foresight schema** — JSON-based definitions for ASI scenarios (origin, architecture, alignment, impact).
+* **Quantitative + narrative integration** — Combines probability fields with timeline narratives.
+* **Model provenance tracking** — Records model identity, parameters, and configuration for every generated scenario.
+* **Evidence layer (future)** — Links generated scenarios with precursor signals from real-world data.
+* **Open methodology** — Fully open-source and schema-driven for auditability and transparency.
+
+---
+
+## 🧩 System Architecture
+
+OASIS is implemented as a modular Python monorepo:
+
 ```
-Researchers            Study ASI risk patterns            Compare scenarios by autonomy/confidence
-Policymakers           Simulate governance responses	  Overlay scenarios with policy interventions
-Educators              Teach foresight and alignment	  Classroom scenario analysis
-Data Scientists        Integrate into dashboards	      Build visual analytics
+oasis-observatory/
+├── data/                          # gitignored runtime databases
+│   ├── asi_scenarios.db           # Generated single-ASI scenarios
+│   ├── multi_asi_scenarios.db     # Multi-agent ASI interactions
+│   └── precursor_signals.db       # Tracker output (real-world precursors)
+│
+├── common/                        # Shared core utilities
+│   ├── __init__.py
+│   ├── db.py                      # SQLite helpers
+│   ├── logger.py                  # Unified logging setup
+│   ├── utils.py                   # Small helper functions
+│   ├── validation.py              # JSON Schema + data validation
+│   └── schemas/                   # Versioned data contracts
+│       ├── asi_scenario.json
+│       ├── multi_asi_scenario.json
+│       └── signals.json
+│
+├── generator/                     # PHASE 1 — ASI Scenario Generator (MVP)
+│   ├── __init__.py
+│   ├── cli.py                     # Entry point: oasis-generator
+│   ├── config/                    # Prompts + model settings
+│   ├── single_asi_scenario.py     # Logic for one ASI scenario
+│   ├── multi_asi_scenario.py      # Multi-agent simulation
+│   ├── single_asi_database.py     # SQLite operations
+│   ├── multi_asi_database.py      # SQLite operations for multi-ASI
+│   ├── parameter_sampler.py       # Randomization and parameter control
+│   └── generate_batch.py          # Batch generation script
+│
+├── tracker/                       # PHASE 2 — Real-world Signal Tracker (Q4 2025)
+│   ├── __init__.py
+│   ├── cli.py                     # Entry point: oasis-tracker
+│   ├── config/
+│   │   ├── sources.yaml           # Data sources (arXiv, GitHub, news)
+│   │   └── keywords.yaml          # Extraction keywords
+│   ├── tracker.py                 # Orchestration
+│   ├── extractor.py               # Source ingestion
+│   ├── signal_parser.py           # Normalization and cleaning
+│   ├── signal_classifier.py       # Mapping signals to scenarios
+│   └── precursor_database.py      # Writes to precursor_signals.db
+│
+├── dashboard/                     # PHASE 3 — Visualization & Analytics (Q1 2026)
+│   ├── __init__.py
+│   ├── app.py                     # Streamlit or FastAPI web app
+│   ├── config/
+│   │   └── ui_settings.json       # Dashboard settings
+│   ├── static/
+│   │   ├── index.html
+│   │   ├── style.css
+│   │   └── logo.svg
+│   ├── queries.py                 # SQL → JSON converters
+│   ├── analytics.py               # Probability + scenario insights
+│   └── api.py                     # REST endpoints (optional)
+│
+├── docs/                          # Documentation and research context
+│   ├── architecture.md
+│   ├── methodology.md
+│   ├── ethics.md
+│   └── roadmap.md
+│
+├── tests/                         # Unit + integration tests (pytest)
+│   ├── conftest.py
+│   ├── test_generator.py
+│   ├── test_tracker.py
+│   ├── test_dashboard.py
+│   └── test_utils.py
+│
+├── scripts/                       # Developer tools
+│   ├── validate_schemas.py        # Schema validation CLI
+│   ├── migrate_data.py            # DB schema migration helper
+│   └── seed_demo_data.py          # Sample data for testing
+│
+├── demo/                          # Demo assets and screencasts
+│   ├── record.mp4
+│   └── screenshots/
+│
+├── .github/workflows/ci.yml       # Continuous Integration (lint + tests)
+├── pyproject.toml                 # Build + dependencies (PEP 621)
+├── requirements.txt               # Fallback dependency list
+├── Makefile                       # Commands: make up, make test, make demo
+├── docker-compose.yml             # Reproducible local environment
+├── .gitignore                     # Ignore data/, cache/, build/
+└── README.md                      # You are here 👋
 ```
-## Ethics and Transparency Statement
-OASIS Observatory promotes open, transparent modeling of AI futures without speculative hype.
-All generated data follows a clear provenance model, tracks the generator identity, and includes confidence and uncertainty metrics.
 
-## Structure
-- `oasis_generator/`: Generate and store ASI scenario narratives.
-- `oasis_tracker_lite/`: Extract real-world precursors.
-- `oasis_dashboard_lite/`: Assess probabilities and map the scenario landscape based on the precursor strengths, generate reports and visualizations.
-- `oasis_data/`: SQLite databases used for storage.
 ---
-## Usage
 
-1. Install dependencies:
+## ⚙️ Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/oasis-observatory/oasis-observatory.git
+cd oasis-observatory
+```
+
+### 2. Install dependencies
+
+Recommended (modern method):
+
+```bash
+pip install .
+```
+
+or for development:
+
+```bash
+pip install -e .
+```
+
+Legacy fallback:
+
+```bash
 pip install -r requirements.txt
-
-2. Run a single ASI scenario generation:
-python oasis_generator/single_asi_scenario.py
-
-3. Generate a multiple ASI scenarion:
-python multi_asi_scenario_/generate_batch.py
-
-
-## TODO
-- [x] Add JSON schema for validation
-- [ ] Add more LLM agents for better scenario generation and evaluation
-- [ ] Design signal parsers
-- [ ] Link scenarios to real-world precursor signals, using multiagent precursor and scenario
-- [ ] Develop a probability assessment module
-
-
-## File Structure
 ```
-oasis_observatory/
-├── README.md                            # Project overview, setup instructions, usage
-│
-generator/
-├── config/
-│   └── asi_scenario_schema.json       # JSON schema definition for validating scenario structure
-├── utils/
-│   └── abbreviator.py                 # Utility to generate shortened ASI scenario titles
-├── generate_batch.py                  # Batch scenario generation utility
-├── multi_asi_scenario.py              # Generator logic for multi-agent (multi-ASI) scenario narratives based on the single-ASI scenarios from asi_scenarios.db
-├── multi_asi_ollama_client.py         # Connects to local Ollama LLM for multi-ASI scenarios
-├── multi_asi_database.py              # Handles SQLite operations for multu-ASI scenarios storage at multi_asi_scenarios.db
-├── parameter_sampler.py               # Defines how scenario parameters are randomly or manually sampled
-├── single_asi_scenario.py             # Main script to generate a single ASI scenario
-├── single_asi_ollama_client.py        # Connects to local Ollama LLM for single-ASI scenarios
-├── single_asi_database.py             # Handles SQLite operations for sinle-ASI scenarios storage at asi_scenarios.db
-└── ...
+
+### 3. Run the generator (single ASI scenario)
+
+```bash
+oasis-generator single
 ```
----
-### TODO
+
+Or directly:
+
+```bash
+python -m generator.single_asi_scenario
 ```
-│
-├── requirements.txt                     # Python dependencies for entire project
-├── main.py                              # (Optional) CLI or central orchestration entry point
-├── common/                              # Shared utilities and helpers across all modules
-│   └── logger.py                        # Logging setup and wrappers
-│
-├── oasis_tracker/                       # Module: tracks real-world precursors to ASI emergence
-│   ├── config/
-│   │   └── precursor_signal.jsonc       # Signal definitions and keywords for classification
-│   ├── extractor.py                     # Orchestrator for extracting and classifying signals
-│   ├── parser_A.py                      # Extracts relevant signals
-│   ├── parser_B.py                      # Extracts relevant signals
-│   ├── precursor_db.py                  # Manages signal storage in SQLite database
-│   └── signal_classifier.py             # Classifies project metadata into scenario features
-│
-├── oasis_dashboard_lite/                # Module: maps and visualizes ASI scenario landscape
-│   ├── config/
-│   │   └── mapping_weights.json         # Weights and heuristics for mapping scenario axes
-│   ├── map_AA.py                        # Maps scenarios in a 2D agency-autonomy space
-│   ├── single_asi_safety_analyzer.py    # Generates a report based on the last multi-ASI scenario in the database
-│   └── multi_asi_safety_analyzer.py     # Generates a report based on the last multi-ASI scenario in the database
-│
-├── data/                                # Project-local databases and signal logs
-│   ├── asi_scenarios.db                 # DB for generated single-ASI scenarios
-│   ├── multi_asi_scenario.db            # DB for multi-ASI interaction scenarios
-│   └── precursor_signals.db             # DB for storing tracked precursor signals
-│
-└── tests/                               # Unit and integration tests (recommended for v0.2+)
-    ├── test_extractor.py                # Test cases for signal extraction and parsing
-    ├── test_mapper.py                   # Tests for scenario mapping and visualization
-    └── test_scenario_generator.py       # Tests for scenario creation and schema validation
+
+### 4. Run with Docker
+
+```bash
+docker-compose up
 ```
+
+This will launch:
+
+* the generator service
+* the dashboard (port `8501`)
+* an optional local Ollama container for LLM inference
+
+### 5. Run tests
+
+```bash
+pytest -v
+```
+
 ---
 
-## External Requirements
-- Python 3.8+
-- Ollama installed and configured locally (used for LLM inference)
-- SQLite3
+## 🧮 Example Workflow
+
+1. **Generate Scenarios**
+
+   ```bash
+   make demo
+   ```
+
+   Produces narrative and structured ASI scenarios in `data/asi_scenarios.db`.
+
+2. **Track Precursors (Phase 2)**
+   Once released, run:
+
+   ```bash
+   oasis-tracker run
+   ```
+
+   Extracts real-world signals and populates `data/precursor_signals.db`.
+
+3. **Visualize Insights (Phase 3)**
+
+   ```bash
+   streamlit run dashboard/app.py
+   ```
+
+   Explore ASI trajectories interactively in the dashboard.
+
 ---
 
-## MIT License
+## 🧬 Data Ethics & Transparency
+
+OASIS Observatory adheres to the following principles:
+
+* **Transparency:** All generated outputs record model, parameters, and date.
+* **Provenance:** Every entry in `.db` is schema-validated and auditable.
+* **Open Research:** No proprietary data or black-box inference used.
+* **Ethical Foresight:** Scenarios are for policy research and education — *not predictions*.
+
+See [`docs/ethics.md`](./docs/ethics.md) for details.
 
 ---
-<!--
-**oasis-observatory/OASIS-observatory** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
-Here are some ideas to get you started:
+## 🧩 Roadmap
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+| Phase                         | Timeline   | Focus                                   |
+| ----------------------------- | ---------- | --------------------------------------- |
+| **Phase 1 — Generator (MVP)** | 🚧 2025 Q4 | Scenario generation, schema validation  |
+| **Phase 2 — Tracker**         | 🚧 2026 Q1 | Precursor signal extraction and mapping |
+| **Phase 3 — Dashboard**       | ⏳ 2026 Q2 | Visualization, analytics, reporting     |
+
+See [`docs/roadmap.md`](./docs/roadmap.md) for full milestones.
+
+---
+
+## 👥 Team
+
+| Role                              | Name                                                                           | Focus                                           |
+| --------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------- |
+| **Founder & Lead Architect**      | [**Mikhail Bukhtoyarov**](https://philpeople.org/profiles/mikhail-bukhtoyarov) | Philosophy of Technology, foresight methodology |
+| **Core Contributor (Dev Lead)**   | TBD                                                                            | Software architecture, system design            |
+| **Core Contributor (Governance)** | TBD                                                                            | Legal and organizational alignment              |
+
+> Want to contribute or be publicly credited?
+> Join [Discussions](https://github.com/oasis-observatory/oasis-observatory/discussions) or open an Issue.
+
+---
+
+## 🧰 Development Shortcuts
+
+| Command      | Description                          |
+| ------------ | ------------------------------------ |
+| `make up`    | Launch full stack via Docker Compose |
+| `make demo`  | Generate sample ASI scenarios        |
+| `make test`  | Run all Pytest suites                |
+| `make clean` | Remove temporary and cached data     |
+
+---
+
+## 📄 License
+
+**MIT License** — open for academic, research, and educational use.
+
+---
+
+## 🌍 Citation
+
+If you use OASIS Observatory in research, please cite:
+
+> Bukhtoyarov, M. (2025). *OASIS Observatory: Open Artificial Superintelligence Scenario Modeling Platform (v0.2)*. GitHub Repository: [https://github.com/oasis-observatory/oasis-observatory](https://github.com/oasis-observatory/oasis-observatory)
+
+---
