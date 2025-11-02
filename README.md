@@ -1,7 +1,7 @@
 ---
 
 # 🌌 **Open Artificial Superintelligence Scenario Observatory (OASIS Observatory v0.1)**
-
+[![Project Status: Alpha – MVP (Generator only)](https://img.shields.io/badge/status-alpha%20%28generator%20only%29-red.svg)](https://github.com/oasis-observatory/oasis-observatory/issues)
 ---
 
 ## Overview
@@ -64,7 +64,7 @@ oasis-observatory/
 │   └── generate_batch.py          # Batch generation script
 
 
-###TODO
+# TODO
 │
 ├── tracker/                       # PHASE 2 — Real-world Signal Tracker (Q4 2025)
 │   ├── __init__.py
@@ -252,15 +252,18 @@ See [`docs/roadmap.md`](./docs/roadmap.md) for full milestones.
 
 ---
 
-## 🧰 Development Shortcuts
+## 🛠️ Development Shortcuts (Alpha)
 
-| Command      | Description                          |
-| ------------ | ------------------------------------ |
-| `make up`    | Launch full stack via Docker Compose |
-| `make demo`  | Generate sample ASI scenarios        |
-| `make test`  | Run all Pytest suites                |
-| `make clean` | Remove temporary and cached data     |
+> Only **working commands** are listed. Others are coming in future phases.
 
+| Command       | Description                            | Status |
+|---------------|----------------------------------------|--------|
+| `make demo`   | Generate sample ASI scenarios          | 🚫 **Not yet** (Phase 2) |
+| `make test`   | Run unit tests (Phase 1 only)          | 🚫 **Not yet** (Phase 2) |
+| `make clean`  | Remove `data/` and cache               | 🚫 **Not yet** (Phase 2) |
+| `make up`     | Launch full stack via Docker Compose   | 🚫 **Not yet** (Phase 3) |
+
+> Run `make` with no args to see available targets.
 ---
 
 ## 📄 License
