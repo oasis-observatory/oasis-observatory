@@ -1,0 +1,9 @@
+[project]
+name = "oasis-observatory"
+version = "0.1.0"
+dependencies = [
+    "pydantic-settings",
+    "typer[all]",
+    "jsonschema",
+    "structlog"
+]

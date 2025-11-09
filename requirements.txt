@@ -1,0 +1,13 @@
+# HTTP client for API requests
+requests>=2.31.0
+
+# JSON parsing and validation
+jsonschema>=4.19.0        # validates ASI scenario schema
+json5>=0.9.12             # supports JSON with comments
+commentjson>=0.9.0        # alternative for .jsonc files
+
+# Optional: Pydantic if your schema validation uses it
+pydantic>=2.6.0
+
+# Logging utilities (if you use any additional logging packages beyond stdlib)
+# loguru>=0.7.0           # optional

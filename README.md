@@ -1,6 +1,10 @@
 ---
-# **Open Artificial Superintelligence Scenario Observatory (OASIS Observatory v0.1.1)**
-[![Project Status: Alpha – MVP (Generator only)](https://img.shields.io/badge/status-alpha%20%28generator%20only%29-red.svg)](https://github.com/oasis-observatory/oasis-observatory/issues)
+
+# 🧠 **OASIS Observatory (Open Artificial Superintelligence Scenario Observatory)**
+
+**Version:** 0.1.1-alpha (MVP: Generator Only)
+**Status:** Experimental / Under Active Development
+
 ---
 
 ## 📘 Overview
@@ -69,12 +73,9 @@ oasis-observatory/
 │   │   ├── interact.py        # Detect and simulate swarm interaction patterns
 │   │   ├── narrator.py        # 
 │   │   ├── renderer.py        # Turn interaction events into narrative output
-│   │   ├── schema_m.py        #
+│   │   ├── schema_m.py        # 
 │   │   ├── storage_m.py       # Save multi-ASI scenarios
 │   │   └── models.py          # Dataclasses (optional)
-│   │
-│   ├── utils/
-│   │   └── __init__.py
 │   │
 │   ├── tracker/               # TODO: Precursors scrapers (GitHub/HF/Arxiv)
 │   ├── analyzer/              # TODO: Scenario weighting via genetic approach
@@ -193,36 +194,10 @@ python oasis/swarm/cli_m.py
 
 ---
 
-## 🧬 Data Ethics & Transparency
+## 🧑‍🔬 Credits
 
-OASIS Observatory adheres to the following principles:
-
-* **Transparency:** All generated outputs record model, parameters, and date.
-* **Provenance:** Every entry in `.db` is schema-validated and auditable.
-* **Open Research:** No proprietary data or black-box inference used.
-* **Ethical Foresight:** Scenarios are for policy research and education — *not predictions*.
+**Author / Maintainer:** OASIS Research Collective
+**License:** MIT (provisional)
+**Contact:** *[add contact or repository URL]*
 
 ---
-
-## Team
-
-| Role                              | Name                                                                           | Focus                                           |
-| --------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------- |
-| **Founder & Lead Architect**      | [**Mikhail Bukhtoyarov**](https://philpeople.org/profiles/mikhail-bukhtoyarov) | Philosophy of Technology, foresight methodology |
-| **Core Contributor (Dev Lead)**   | TBD                                                                            | Software architecture, system design            |
-| **Core Contributor (Governance)** | TBD                                                                            | Legal and organizational alignment              |
-
-> Want to contribute or be publicly credited?
-> Join [Discussions](https://github.com/oasis-observatory/oasis-observatory/discussions) or open an Issue.
-
-## 📄 License
-
-**MIT License** — open for academic, research, and educational use.
-
----
-
-## Citation
-
-If you use OASIS Observatory in research, please cite:
-
-> Bukhtoyarov, M. (2025). *OASIS Observatory: Open Artificial Superintelligence Scenario Modeling Platform (v0.2)*. GitHub Repository: [https://github.com/oasis-observatory/oasis-observatory](https://github.com/oasis-observatory/oasis-observatory)
