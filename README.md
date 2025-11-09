@@ -1,4 +1,6 @@
 ### 🧠 **OASIS Observatory (Open Artificial Superintelligence Scenario Observatory)**
+[![Project Status: Alpha – MVP (Generator only)](https://img.shields.io/badge/status-alpha%20%28generator%20only%29-red.svg)](https://github.com/oasis-observatory/oasis-observatory/issues)
+
 **Version:** 0.1.1-alpha (MVP: Generator Only)
 **Status:** Experimental / Under Active Development
 
