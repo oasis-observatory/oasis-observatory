@@ -1,7 +1,6 @@
 ---
 
-# 🧠 **OASIS Observatory (Open Artificial Superintelligence Scenario Observatory)**
-
+### 🧠 **OASIS Observatory (Open Artificial Superintelligence Scenario Observatory)**
 **Version:** 0.1.1-alpha (MVP: Generator Only)
 **Status:** Experimental / Under Active Development
 
