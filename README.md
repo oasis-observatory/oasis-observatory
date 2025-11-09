@@ -92,22 +92,6 @@ oasis-observatory/
 
 ---
 
-## ⚙️ Generator Overview (v0.2)
-
-```
-┌───────────────────────────────────────────┐
-│ cli.py → generate() → generate_scenario() │
-└───┬───────────────────────────────────────┘
-    ▼
-┌──────────────────────────────────────────────┐
-│ core.py → generate_scenario()                │
-│ (main orchestrator)                          │
-└───┬─────────────────────┬───────────────────┬┘
-    ▼                     ▼                   ▼
- params.py           timeline.py        abbreviator.py
- sample_parameters() dynamic_timeline() abbreviate()
-```
-
 **Execution flow:**
 
 1. **`cli.py`**
@@ -132,36 +116,11 @@ oasis-observatory/
 
 ---
 
-## 🧠 Swarm Generator Flow
-
-```
-python oasis/swarm/cli_m.py
-        │
-        ▼
-  interactive_startup() → config
-        │
-        ▼
-   spawn_swarm(n)
-        │
-        ├─→ generate_scenario() × n
-        │     ├─ sample_parameters()
-        │     ├─ generate_narrative()
-        │     └─ save_scenario()
-        │
-        ▼
-    interact_all(swarm)
-        │
-        ├─ detect_pattern() → Event objects
-        ├─ render_interaction() → narrative dict
-        └─ save_multi_asi_scenario() → SQLite
-```
-
----
-
 ## 💾 Data Storage
 
 * **Database:** `data/asi_scenarios.db`
 * **Table:** `scenarios`
+* **Table:** `multi_asi_scenarios`
 
   * `id` – Integer primary key
   * `title` – Scenario title (abbreviated)
