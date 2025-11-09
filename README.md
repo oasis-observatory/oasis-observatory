@@ -1,140 +1,197 @@
 ---
-# **Open Artificial Superintelligence Scenario Observatory (OASIS Observatory v0.1)**
+# **Open Artificial Superintelligence Scenario Observatory (OASIS Observatory v0.2)**
 [![Project Status: Alpha – MVP (Generator only)](https://img.shields.io/badge/status-alpha%20%28generator%20only%29-red.svg)](https://github.com/oasis-observatory/oasis-observatory/issues)
 ---
 
-## Overview
+## 📘 Overview
 
 **OASIS Observatory** is an open research platform that **simulates, tracks, and visualizes trajectories of Artificial Superintelligence (ASI)**.
-It integrates narrative foresight, real-world data signals, and transparent model provenance to help researchers, policymakers, and AI safety practitioners **anticipate high-impact futures**.
+It integrates **narrative foresight**, **real-world AI development signals**, and **transparent model provenance** to support researchers, policymakers, and AI safety practitioners in exploring and anticipating high-impact AI futures.
+
+The platform currently focuses on **scenario generation**, simulating possible ASI development paths and their global impacts.
 
 ---
 
-## Mission Statement
+## 🎯 Core Goals
 
-> *“Transparency and rigor are non-negotiable when modeling futures that matter.”*
-
-OASIS Observatory applies **schema-based foresight modeling** and **multi-agent simulation** to explore the emergence, coordination, and risks of advanced AI systems.
-It aims to provide a reproducible, explainable foundation for **superintelligence governance research** and **ethical AI forecasting**.
-
----
-
-## Core Features
-
-* **Structured foresight schema** — JSON-based definitions for ASI scenarios (origin, architecture, alignment, impact).
-* **Quantitative + narrative integration** — Combines probability fields with timeline narratives.
-* **Model provenance tracking** — Records model identity, parameters, and configuration for every generated scenario.
-* **Evidence layer (future)** — Links generated scenarios with precursor signals from real-world data.
-* **Open methodology** — Fully open-source and schema-driven for auditability and transparency.
+1. Simulate ASI evolution (2025–2100) through narrative scenarios. 
+2. Includes speculative early precursors (e.g., covert swarm-like ASIs in 2010–2025).
+3. Populate a scenario database with diverse speculative futures, then iteratively refine them using LLM-assisted evaluation.
+4. Evaluate generated scenarios with logic and feasibility checks, supported by LLM-based meta-analysis layers.
 
 ---
 
-## System Architecture
+## 🧩 Module Structure
 
-OASIS is implemented as a modular Python monorepo:
+| Module                    | Description                                                                                               |
+|---------------------------|-----------------------------------------------------------------------------------------------------------|
+| **S-Generator**           | Creates and stores ASI scenario narratives. Generates single-ASI trajectories.                            |
+| **M-Generator**           | Creates and stores ASI scenario narratives. Generates muli-ASI trajectories.                              |
+| **Tracker** *(Planned)*   | Extracts real-world AI development precursors from GitHub, Hugging Face, ArXiv, and blogs.                |
+| **Analyzer** *(Planned)*  | Uses genetic algorithm-style weighting and LLMs to assess scenario plausibility and update probabilities. |
+| **Dashboard** *(Planned)* | Provides visualization, mapping, and analytical tools via Streamlit or FastAPI.                           |
+| **Data**                  | SQLite databases for scenario and precursor storage, reusable for research and creative exploration.      |
+---
+
+## 🗂️ File Map
 
 ```
-
-oasis-observatory/                     # Root: one repo
-├── data/                              # Runtime data — NEVER committed
-│   ├── asi_scenarios.db               # SQLite: single-ASI narratives
-│   ├── multi_asi_scenarios.db         # SQLite: multi-agent interaction logs
-│   └── precursor_signals.db           # SQLite: real-world AI precursor events
+oasis-observatory/
+├── data/
+│   └── asi_scenarios.db       # SQLite database (auto-created)
 │
-├── common/                            # Shared, versioned core — imported everywhere
-│   ├── __init__.py                    # Exposes: log, db, abbreviate_title, sample_params
-│   ├── db.py                          # get_conn(name), auto-migrate, thread-safe
-│   ├── logger.py                      # Rich + rotating file handler, one-liner: log.info()
-│   ├── text_utils.py                       # abbreviate_title(), slugify(), truncate()
-│   ├── validation.py                  # validate_asi_scenario(data), validate_signal()
-│   ├── parameter_sampler.py           # sample_one(), sample_batch(), --seed support
-│   └── schemas/                       # JSON Schema contracts (peer-reviewed)
-│       ├── asi_scenario.json          # Required fields, enums, patterns
-│       ├── multi_asi_scenario.json
-│       └── signals.json
-│
-├── generator/                         # PHASE 1 — MVP (works today)
-│   ├── __init__.py                    # from .generate_batch import run_batch
-│   ├── cli.py                         # typer CLI → oasis-generator
-│   ├── config/
+├── oasis/                     
+│   ├── __init__.py 
+│   ├── config.py              # Paths and constants (DB, schema, etc.)
+│   ├── logger.py              # structlog setup for consistent logging
+│   │
+│   ├── common/
+│   │   └── schema.py          # SchemaManager: JSON Schema validation
+│   │
+│   ├── s_generator/           # Core scenario generation module
+│   │   ├── clients/
+│   │   │   └── ollama.py      # LLM interface for narrative generation
 │   │   ├── __init__.py
-│   │   ├── ollama_settings.json       # model, temp, top_p
-│   │   └── prompts/
-│   │       ├── single_asi.txt         # {{params}} → narrative
-│   │       └── multi_asi.txt
-│   ├── single_asi_scenario.py         # prompt → JSON → validate → DB
-│   ├── single_asi_ollama_client.py    # retry, streaming, timeout
-│   ├── single_asi_database.py         # INSERT with upsert
-│   ├── multi_asi_scenario.py          # orchestrates N single runs
-│   ├── multi_asi_ollama_client.py
-│   ├── multi_asi_database.py
-│   ├── generate_batch.py              # reads data/params.json OR samples live
-│   └── _demo_scenarios.py             # 5 hand-crafted examples for make demo
+│   │   ├── abbreviator.py     # Creates unique scenario IDs
+│   │   ├── batch_generate.py  # Batch scenario generation
+│   │   ├── cli.py             # Typer CLI entrypoint: `oasis generate`
+│   │   ├── consistency.py     # NarrativeChecker for internal logic
+│   │   ├── core.py            # Main orchestrator: generate_scenario()
+│   │   ├── params.py          # Randomly sample scenario parameters
+│   │   ├── storage.py         # Initialize DB and save generated scenarios
+│   │   └── timeline.py        # Generate dynamic timelines (2025–2100)
+│   │   
+│   ├── m_generator/           # Multi-ASI simulation
+│   │   ├── __init__.py
+│   │   ├── cli_m.py           # CLI entrypoint: `oasis swarm`
+│   │   ├── core_m.py          # Spawn and manage multiple ASIs
+│   │   ├── database.py        # DB integration for swarm data
+│   │   ├── interact.py        # Detect and simulate swarm interaction patterns
+│   │   ├── narrator.py        # 
+│   │   ├── renderer.py        # Turn interaction events into narrative output
+│   │   ├── schema_m.py        #
+│   │   ├── storage_m.py       # Save multi-ASI scenarios
+│   │   └── models.py          # Dataclasses (optional)
+│   │
+│   ├── utils/
+│   │   └── __init__.py
+│   │
+│   ├── tracker/               # TODO: Precursors scrapers (GitHub/HF/Arxiv)
+│   ├── analyzer/              # TODO: Scenario weighting via genetic approach
+│   └── dashboard/             # TODO: Visualization frontend
 │
-├── tracker/                           # PHASE 2 — Q4 2025
-│   ├── __init__.py
-│   ├── cli.py                         # oasis-tracker --once / --watch
-│   ├── config/
-│   │   ├── sources.yaml               # arXiv CS, Hacker News, GitHub trending
-│   │   └── keywords.yaml
-│   ├── tracker.py                     # scheduler + dispatcher
-│   ├── extractor.py                   # RSS/JSON → raw text
-│   ├── signal_parser.py               # LLM-free regex + heuristics
-│   ├── signal_classifier.py           # maps to ASI scenario categories
-│   ├── precursor_database.py          # writes to precursor_signals.db
-│   └── metrics.py                     # daily signal velocity dashboard
+├── schemas/
+│   └── asi_scenario_v1.json   # JSON schema for scenario validation
 │
-├── dashboard/                         # PHASE 3 — Q1 2026
-│   ├── __init__.py
-│   ├── app.py                         # Streamlit UI (default)
-│   ├── api.py                         # FastAPI REST (optional)
-│   ├── config/
-│   │   └── ui_settings.json
-│   ├── static/
-│   │   ├── index.html
-│   │   ├── style.css
-│   │   └── logo.svg
-│   ├── queries.py                     # SQL → pandas → JSON
-│   ├── map_projection.py              # 2D UMAP of scenario space
-│   └── analytics.py                   # Monte-Carlo risk curves
-│
-├── docs/                              # Publish-ready
-│   ├── architecture.md                # Mermaid diagrams
-│   ├── roadmap.md                     # Gantt + milestones
-│   ├── ethics.md                      # Bias, dual-use, transparency
-│   └── methodology.md                 # Why narrative + schema beats pure LLM
-│
-├── tests/                             # pytest — CI passes → funding gate
-│   ├── conftest.py                    # fixtures: temp_db, mock_ollama
+├── tests/
 │   ├── test_generator.py
-│   ├── test_tracker.py
-│   ├── test_dashboard.py
-│   ├── test_utils.py
-│   └── test_validation.py
+│   └── test_oasis_1.py
 │
-├── scripts/                           # One-off tools
-│   ├── oasis-params                   # CLI → common/parameter_sampler.py
-│   ├── validate_schemas.py
-│   ├── migrate_data.py
-│   └── seed_demo_data.py
-│
-├── demo/                              # 60-second pitch
-│   ├── record.mp4
-│   └── screenshots/
-│       ├── generator-cli.png
-│       ├── dashboard-map.png
-│       └── params-dist.png
-│
-├── .github/
-│   └── workflows/
-│       └── ci.yml                     # lint (ruff) → test → docker build
-│
-├── .gitignore                         # data/, __pycache__, .env, *.db
-├── pyproject.toml                     # PEP 621 + entry-points
-├── Makefile                           # make demo → 10 seconds to wow
-├── docker-compose.yml                 # generator + dashboard + volume
-└── README.md                          # Hero section + one-liner install
+├── .env.example
+├── pyproject.toml
+└── README.md
 ```
+
+---
+
+## ⚙️ Generator Overview (v0.2)
+
+```
+┌───────────────────────────────────────────┐
+│ cli.py → generate() → generate_scenario() │
+└───┬───────────────────────────────────────┘
+    ▼
+┌──────────────────────────────────────────────┐
+│ core.py → generate_scenario()                │
+│ (main orchestrator)                          │
+└───┬─────────────────────┬───────────────────┬┘
+    ▼                     ▼                   ▼
+ params.py           timeline.py        abbreviator.py
+ sample_parameters() dynamic_timeline() abbreviate()
+```
+
+**Execution flow:**
+
+1. **`cli.py`**
+
+   * CLI entry: `oasis generate [--count N]`
+2. **`core.py`**
+
+   * `sample_parameters()` → Random ASI attributes (e.g., origin, emergence type)
+   * `abbreviate(params)` → Generate unique scenario ID
+   * `dynamic_timeline()` → 2025–2100 timeline
+   * `ollama.generate_scenario()` → Request LLM-generated narrative
+   * `NarrativeChecker.check()` → Consistency check
+   * `SchemaManager.validate()` → JSON Schema validation
+   * `save_scenario()` → Store in SQLite
+3. **`ollama.py`**
+
+   * Calls local Ollama LLMs (`llama3:8b`, `gemma2:9b`, `mistral:7b`)
+   * Returns ~350-word narrative text
+4. **`storage.py`**
+
+   * Writes validated scenario into `data/asi_scenarios.db`
+
+---
+
+## 🧠 Swarm Generator Flow
+
+```
+python oasis/swarm/cli_m.py
+        │
+        ▼
+  interactive_startup() → config
+        │
+        ▼
+   spawn_swarm(n)
+        │
+        ├─→ generate_scenario() × n
+        │     ├─ sample_parameters()
+        │     ├─ generate_narrative()
+        │     └─ save_scenario()
+        │
+        ▼
+    interact_all(swarm)
+        │
+        ├─ detect_pattern() → Event objects
+        ├─ render_interaction() → narrative dict
+        └─ save_multi_asi_scenario() → SQLite
+```
+
+---
+
+## 💾 Data Storage
+
+* **Database:** `data/asi_scenarios.db`
+* **Table:** `scenarios`
+
+  * `id` – Integer primary key
+  * `title` – Scenario title (abbreviated)
+  * `data` – JSON document (parameters, timeline, narrative, metadata)
+
+---
+
+## 🧪 Development Notes
+
+* **Language:** Python 3.10+
+* **CLI Framework:** Typer
+* **Database:** SQLite
+* **Logging:** structlog
+* **LLM Client:** Ollama (local models)
+* **Testing:** pytest
+
+---
+
+## 🧭 Roadmap
+
+| Phase     | Focus                                                 |
+| --------- | ----------------------------------------------------- |
+| **v0.3**  | Integrate real-world precursors (GitHub, HF)          |
+| **v0.4**  | Scenario weighting and evolutionary selection         |
+| **v0.5**  | Visualization dashboard (Streamlit/FastAPI)           |
+| **v0.6+** | Collaborative web interface and public dataset export |
+
+---
 
 ## 🧬 Data Ethics & Transparency
 
@@ -144,16 +201,6 @@ OASIS Observatory adheres to the following principles:
 * **Provenance:** Every entry in `.db` is schema-validated and auditable.
 * **Open Research:** No proprietary data or black-box inference used.
 * **Ethical Foresight:** Scenarios are for policy research and education — *not predictions*.
-
----
-
-## Roadmap
-
-| Phase                         | Timeline   | Focus                                   |
-| ----------------------------- | ---------- | --------------------------------------- |
-| **Phase 1 — Generator (MVP)** | 🚧 2025 Q4 | Scenario generation, schema validation  |
-| **Phase 2 — Tracker**         | 🚧 2026 Q1 | Precursor signal extraction and mapping |
-| **Phase 3 — Dashboard**       | ⏳ 2026 Q2 | Visualization, analytics, reporting     |
 
 ---
 
