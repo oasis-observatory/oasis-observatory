@@ -150,10 +150,16 @@ oasis-observatory/
 
 ---
 
-## 🧑‍🔬 Credits
+## License
 
-**Author / Maintainer:** OASIS Research Collective
-**License:** MIT (provisional)
-**Contact:** *[add contact or repository URL]*
+**MIT License** — open for academic, research, and educational use.
+
+---
+
+## Citation
+
+If you use OASIS Observatory in research, please cite:
+
+> Bukhtoyarov, M. (2025). *OASIS Observatory: Open Artificial Superintelligence Scenario Modeling Platform (v0.1.1)*. GitHub Repository: [https://github.com/oasis-observatory/oasis-observatory](https://github.com/oasis-observatory/oasis-observatory)
 
 ---
