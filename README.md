@@ -1,7 +1,5 @@
 ---
-
 # 🧠 **OASIS Observatory (Open Artificial Superintelligence Scenario Observatory)**
-
 **Version:** 0.1.1-alpha (MVP: Generator Only)
 **Status:** Experimental / Under Active Development
 
@@ -151,88 +149,6 @@ oasis track all
 ## Analyzer Module – How Signals Connect to Scenarios
 
 The `oasis analyze` command runs a **real-time linkage engine** that connects real-world precursor signals (GitHub repos, papers, news) to generated ASI scenarios.
-
-### Function Flow Diagram
-
-```mermaid
-
-
-flowchart TD
-    A[Start: oasis analyze link] --> B[init_linkage_table()]
-    B --> C[Fetch Signals from precursor_signals.db]
-    C --> D[Fix NULL tags + CAST(score AS REAL)]
-    D --> E[Fetch Scenarios from asi_scenarios.db]
-    E --> F[Extract Rich Tags from Scenario JSON]
-    F --> G[For Each Signal]
-    G --> H[Load signal tags (asi_direct, alignment, etc.)]
-    H --> I[Build Full Signal Text]
-    I --> J[title + description + raw_data(readme, topics, description)]
-    J --> K[For Each Scenario]
-    K --> L[Compute Tag Overlap]
-    L --> M[Compute Keyword Overlap (Jaccard on full text)]
-    M --> N[Compute Score Factor = score/10]
-    N --> O[Confidence = 0.3×tag + 0.3×score + 0.4×keyword]
-    O --> P{confidence ≥ 0.5?}
-    P -->|Yes| Q[Upsert into signal_scenario_links table]
-    P -->|No| R[Skip]
-    Q --> S[Add to links list]
-    S --> T[Commit & Close]
-    T --> U[Return links → CLI prints count]
-    U --> V[oasis analyze summary → Dashboard view]
-
----
-## Analyzer Execution Flow (Step-by-Step)
-
-When you run `oasis analyze link`, here's exactly what happens — in order:
-
-```mermaid
-sequenceDiagram
-    participant CLI as CLI (Typer)
-    participant Linkage as linkage.py
-    participant P_DB as precursor_signals.db
-    participant S_DB as asi_scenarios.db
-    participant LinksDB as signal_scenario_links table
-
-    CLI->>Linkage: link_signals_to_scenarios(min_confidence=0.5)
-    Linkage->>LinksDB: CREATE TABLE IF NOT EXISTS signal_scenario_links
-    Linkage->>P_DB: UPDATE precursor_signals SET tags='[]' WHERE tags IS NULL
-    Linkage->>P_DB: SELECT id, title, description, tags, score, raw_data<br>WHERE CAST(score AS REAL) > 1.0
-    P_DB-->>Linkage: 30 signals (GitHub repos, papers, etc.)
-    
-    Linkage->>S_DB: SELECT id, data FROM scenarios
-    S_DB-->>Linkage: 31 scenario JSON blobs
-    
-    loop For each scenario
-        Linkage->>Linkage: Parse JSON → extract narrative
-        Linkage->>Linkage: Build rich tag set (full_autonomy, rogue, swarm, etc.)
-    end
-    
-    loop For each signal
-        Linkage->>Linkage: Load signal tags (asi_direct, alignment, etc.)
-        Linkage->>Linkage: Build full signal text:
-        Note right of Linkage: title + description +<br>raw_data.readme + topics + description
-        
-        loop For each scenario
-            Linkage->>Linkage: tag_overlap = |sig_tags ∩ scen_tags| / |sig_tags|
-            Linkage->>Linkage: keyword_overlap = Jaccard(sig_text, narrative)
-            Linkage->>Linkage: score_factor = score / 10.0
-            Linkage->>Linkage: confidence = 0.3×tag + 0.3×score + 0.4×keyword
-            
-            alt confidence ≥ 0.5
-                Linkage->>LinksDB: UPSERT signal_scenario_links<br>(signal_id, scenario_id, confidence, created_at)
-                Linkage->>Linkage: Append to links list
-            else
-                Linkage->>Linkage: Skip
-            end
-        end
-    end
-    
-    Linkage->>LinksDB: COMMIT
-    Linkage-->>CLI: Return list of 29 links
-    CLI->>CLI: Print: "Created/updated 29 signal→scenario links"
-    
-    Note over CLI,LinksDB: Run `oasis analyze summary` → reads from signal_scenario_links
-
 
 ---
 ## 💾 Data Storage
