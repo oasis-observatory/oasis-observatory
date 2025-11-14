@@ -34,7 +34,7 @@ just like a genetic algorithm (GA) applied to a dynamic world model.
 |---------------------------|-----------------------------------------------------------------------------------------------------------|
 | **S-Generator**           | Creates and stores ASI scenario narratives. Generates single-ASI trajectories.                            |
 | **M-Generator**           | Creates and stores ASI scenario narratives. Generates muli-ASI trajectories.                              |
-| **Tracker** *(Planned)*   | Extracts real-world AI development precursors from GitHub, Hugging Face, ArXiv, and blogs.                |
+| **Tracker** *(in progress)*   | Extracts real-world AI development precursors from GitHub, Hugging Face, ArXiv, and blogs.                |
 | **Analyzer** *(Planned)*  | Uses genetic algorithm-style weighting and LLMs to assess scenario plausibility and update probabilities. |
 | **Dashboard** *(Planned)* | Provides visualization, mapping, and analytical tools via Streamlit or FastAPI.                           |
 | **Data**                  | SQLite databases for scenario and precursor storage, reusable for research and creative exploration.      |
@@ -168,14 +168,6 @@ The `oasis analyze` command runs a **real-time linkage engine** that connects re
   * `threat_index` – Real
 
 * **Database:** `data/precursor_signals.db`
-
-## Database Specifications
-
-OASIS uses **three SQLite databases** — lightweight, zero-config, and perfect for real-time observability.
-
-### 1. `data/precursor_signals.db` – Real-World Signals
-Stores GitHub repos, papers, news — anything that hints at ASI progress.
-
 ```sql
 CREATE TABLE precursor_signals (
     id            TEXT PRIMARY KEY,        -- UUID or GitHub repo ID
@@ -193,9 +185,8 @@ CREATE TABLE precursor_signals (
     raw_data      TEXT,                    -- Full JSON from API (readme, topics, etc.)
     collected_at  TEXT                     -- ISO timestamp
 );
-
+```
 ---
-
 ## 🧪 Development Notes
 
 * **Language:** Python 3.10+
@@ -204,9 +195,7 @@ CREATE TABLE precursor_signals (
 * **Logging:** structlog
 * **LLM Client:** Ollama (local models)
 * **Testing:** pytest
-
 ---
-
 ## 🧭 Roadmap
 
 | Phase     | Focus                                                 |
