@@ -37,19 +37,41 @@ The platform currently focuses on **scenario generation**, simulating possible A
 ---
 
 ## 🗂️ File Map
-
 ```
-oasis-observatory/
-├── data/
-│   └── asi_scenarios.db       # SQLite database (auto-created)
+oasis-observatory/             # Root folder
+├── data/                      # Data folder
+│   ├── asi_scenarios.db       # SQLite database (auto-created) for single-ASI and multi-ASI scenarios
+│   ├── deduplicate_signals.py # Util for deduplication of ASI precursors (temporary solution)
+│   └── precursor_signals.db   # SQLite database (auto-created) for precursors of ASI from the real world data
 │
-├── oasis/                     
+├── oasis/                     # Project modules
 │   ├── __init__.py 
 │   ├── config.py              # Paths and constants (DB, schema, etc.)
 │   ├── logger.py              # structlog setup for consistent logging
 │   │
-│   ├── common/
+│   ├── common/                # Shared by different modules
+│   │   ├── db.py              # Centralized database paths and connection utilities. Resolves paths relative to project root regardless of cwd.
 │   │   └── schema.py          # SchemaManager: JSON Schema validation
+│   │
+│   ├── analyzer/              # Scenario weighting via genetic approach
+│   │   ├── cli_analyzer.py    # Link precursor signals to scenarios based on tags, text, and score.
+│   │   ├── core_analyzer.py   # Evaluates scenario plausibility and systemic complexity. Estimates systemic complexity based on event density & diversity.
+│   │   └── linkage.py         # Signal→scenario links.
+│   │
+│   ├─ dashboard/             # Visualization frontend
+│   │   ├── asi_scenario_viewer.py # 
+│   │   └── precursor_viewer.py # TODO
+│   │   
+│   ├── m_generator/           # Multi-ASI generation module
+│   │   ├── __init__.py
+│   │   ├── cli_m.py           # CLI entrypoint for multi-ASI generation
+│   │   ├── core_m.py          # Spawn and manage multiple ASIs from the ASI_scenario database
+│   │   ├── database.py        # DB integration for multi-ASI data
+│   │   ├── interact.py        # Detect and simulate multiple ASI interaction patterns
+│   │   ├── narrator.py        # Generates multi-ASI narrative
+│   │   ├── renderer.py        # Turn interaction events into narrative output
+│   │   ├── schema_m.py        # Creates and activates a dedicated table for multi-ASI briefings
+│   │   └── storage_m.py       # Save multi-ASI scenarios
 │   │
 │   ├── s_generator/           # Core scenario generation module
 │   │   ├── clients/
@@ -57,39 +79,30 @@ oasis-observatory/
 │   │   ├── __init__.py
 │   │   ├── abbreviator.py     # Creates unique scenario IDs
 │   │   ├── batch_generate.py  # Batch scenario generation
-│   │   ├── cli.py             # Typer CLI entrypoint: `oasis generate`
+│   │   ├── cli.py             # CLI entrypoint
 │   │   ├── consistency.py     # NarrativeChecker for internal logic
 │   │   ├── core.py            # Main orchestrator: generate_scenario()
 │   │   ├── params.py          # Randomly sample scenario parameters
 │   │   ├── storage.py         # Initialize DB and save generated scenarios
 │   │   └── timeline.py        # Generate dynamic timelines (2025–2100)
-│   │   
-│   ├── m_generator/           # Multi-ASI simulation
-│   │   ├── __init__.py
-│   │   ├── cli_m.py           # CLI entrypoint: `oasis swarm`
-│   │   ├── core_m.py          # Spawn and manage multiple ASIs
-│   │   ├── database.py        # DB integration for swarm data
-│   │   ├── interact.py        # Detect and simulate swarm interaction patterns
-│   │   ├── narrator.py        # 
-│   │   ├── renderer.py        # Turn interaction events into narrative output
-│   │   ├── schema_m.py        # 
-│   │   ├── storage_m.py       # Save multi-ASI scenarios
-│   │   └── models.py          # Dataclasses (optional)
 │   │
-│   ├── tracker/               # TODO: Precursors scrapers (GitHub/HF/Arxiv)
-│   ├── analyzer/              # TODO: Scenario weighting via genetic approach
-│   └── dashboard/             # TODO: Visualization frontend
+│   └── tracker/               # Precursors scrapers and evaluators (GitHub/HF/Arxiv)
+│       ├── __init__.py
+│       ├── classifier.py      # ASI precursor signal classification and scoring.
+│       ├── cli_tracker.py     # Tracker entrypoint
+│       ├── core_t.py          # Fetch latest signals on superintelligence topic
+│       └── database_t.py      # Unified precursor signal database with connection pooling and schema init.
 │
 ├── schemas/
 │   └── asi_scenario_v1.json   # JSON schema for scenario validation
 │
 ├── tests/
-│   ├── test_generator.py
-│   └── test_oasis_1.py
+│   ├── test_generator.py      # REWRITE
+│   └── test_tracker.py        # REWRITE
 │
 ├── .env.example
 ├── pyproject.toml
-└── README.md
+└── README.md                  # You are here
 ```
 
 ---

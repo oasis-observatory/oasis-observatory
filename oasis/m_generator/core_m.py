@@ -1,4 +1,4 @@
-# oasis/m_generator/v3/core.py
+# oasis/m_generator/v3/core_s.py
 import sqlite3
 import uuid
 import json

@@ -1,4 +1,4 @@
-# oasis/m_generator/cli.py
+# oasis/m_generator/cli_s.py
 #!/usr/bin/env python3
 """
 OASIS Observatory Swarm CLI

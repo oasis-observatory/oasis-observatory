@@ -6,7 +6,7 @@ Created on Sat Nov  8 16:05:00 2025
 @author: mike
 """
 
-# oasis/s_generator/core.py
+# oasis/s_generator/core_s.py
 import uuid
 from datetime import datetime, timezone
 from typing import Dict, Any
@@ -19,7 +19,7 @@ from oasis.s_generator.params import sample_parameters
 from oasis.s_generator.clients.ollama import generate_narrative
 from oasis.s_generator.timeline import dynamic_timeline
 from oasis.s_generator.consistency import NarrativeChecker
-from oasis.s_generator.storage import save_scenario, init_db
+from oasis.s_generator.storage_s import save_scenario, init_db
 from oasis.s_generator.abbreviator import abbreviate
 
 
