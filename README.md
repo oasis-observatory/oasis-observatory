@@ -211,6 +211,11 @@ CREATE TABLE precursor_signals (
 
 **MIT License** — open for academic, research, and educational use.
 
+## Disclaimer
+OASIS Observatory generates experimental, model-based scenarios for research purposes only.
+They are not predictions, not advice, and not factual claims.
+Use responsibly and critically.
+
 ---
 
 ## Citation
