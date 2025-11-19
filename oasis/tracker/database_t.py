@@ -1,4 +1,4 @@
-# oasis/tracker/database_t.py  ← NEW FILE
+# oasis/tracker/database_t.py
 # Unified precursor signal database with connection pooling and schema init.
 
 import sqlite3
