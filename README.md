@@ -1,5 +1,3 @@
----
-
 # 🧠 **OASIS Observatory (Open Artificial Superintelligence Scenario Observatory)**
 
 **Version:** 0.3-alpha (MVP: Generators, Tracker, Tools. Developmet stage: Analyzer and Dashboars)
