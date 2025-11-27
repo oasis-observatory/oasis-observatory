@@ -3,7 +3,7 @@ __pycache__/
 *.pyc
 .coverage
 htmlcov/
-poetry.lock        # optional: keep if you want reproducible CI builds
+#poetry.lock        # optional: keep if you want reproducible CI builds
 .env
 .venv/
 venv/
