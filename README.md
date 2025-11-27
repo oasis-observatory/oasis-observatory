@@ -1,8 +1,7 @@
-# 🧠 **OASIS Observatory (Open Artificial Superintelligence Scenario Observatory)**
+# **OASIS Observatory (Open Artificial Superintelligence Scenario Observatory)**
 
 **Version:** 0.3-alpha (MVP: Generators, Tracker, Tools. Developmet stage: Analyzer and Dashboars)
 **Status:** Experimental / Under Active Development
-
 ---
 
 ## 📘 Overview
@@ -78,35 +77,35 @@ oasis-observatory/             # Root folder
 │   │   ├── scenario_viewer.py  # TODO
 │   │   └── precursor_viewer.py # TODO
 │   │   
-│   ├── ev_generator/                  # Evidence-based (precursor-influenced) scenario generation for a single ASI
+│   ├── ev_generator/           # Evidence-based (precursor-influenced) scenario generation for a single ASI
 │   │   ├── __init__.py
-│   │   ├── cli_ev.py                  # CLI entrypoint for evidence-based scenario generation
-│   │   ├── core_ev.py                 # Main orchestrator
-│   │   └── params_ev.py               # Adjust parameters based on precursor signals
+│   │   ├── cli_ev.py           # CLI entrypoint for evidence-based scenario generation
+│   │   ├── core_ev.py          # Main orchestrator
+│   │   └── params_ev.py        # Adjust parameters based on precursor signals
 │   │   
-│   ├── m_generator/           # Multi-ASI generation module (TODO - selecting speculative or evidence-based scenarios)
+│   ├── m_generator/            # Multi-ASI generation module (TODO - selecting speculative or evidence-based scenarios)
 │   │   ├── __init__.py
-│   │   ├── cli_m.py           # CLI entrypoint for multi-ASI generation
-│   │   ├── core_m.py          # Spawn and manage multiple ASIs from the ASI_scenario database
-│   │   ├── database_m.py      # DB integration for multi-ASI data
-│   │   ├── interact.py        # Detect and simulate multiple ASI interaction patterns
-│   │   ├── ollama_m.py        # Generates multi-ASI narrative
-│   │   ├── renderer.py        # Turn interaction events into narrative output
-│   │   ├── schema_m.py        # Creates and activates a dedicated table for multi-ASI briefings
-│   │   └── storage_m.py       # Save multi-ASI scenarios
+│   │   ├── cli_m.py            # CLI entrypoint for multi-ASI generation
+│   │   ├── core_m.py           # Spawn and manage multiple ASIs from the ASI_scenario database
+│   │   ├── database_m.py       # DB integration for multi-ASI data
+│   │   ├── interact.py         # Detect and simulate multiple ASI interaction patterns
+│   │   ├── ollama_m.py         # Generates multi-ASI narrative
+│   │   ├── renderer.py         # Turn interaction events into narrative output
+│   │   ├── schema_m.py         # Creates and activates a dedicated table for multi-ASI briefings
+│   │   └── storage_m.py        # Save multi-ASI scenarios
 │   │
-│   ├── s_generator/           # Speculative scenario generation (single ASI)
+│   ├── s_generator/            # Speculative scenario generation (single ASI)
 │   │   ├── __init__.py
-│   │   ├── cli_s.py           # CLI entrypoint
-│   │   ├── core_s.py          # Main orchestrator: generate_scenario()
-│   │   └── params_s.py        # Randomly sample scenario parameters
+│   │   ├── cli_s.py            # CLI entrypoint
+│   │   ├── core_s.py           # Main orchestrator: generate_scenario()
+│   │   └── params_s.py         # Randomly sample scenario parameters
 │   │
-│   └── tracker/               # Precursors scrapers and evaluators (GitHub/HF/Arxiv)
+│   └── tracker/                # Precursors scrapers and evaluators (GitHub/HF/Arxiv)
 │       ├── __init__.py
-│       ├── classifier_t.py      # ASI precursor signal classification and scoring.
-│       ├── cli_tracker.py     # Tracker entrypoint
-│       ├── core_t.py          # Fetch latest signals on superintelligence topic
-│       └── database_t.py      # Unified precursor signal database with connection pooling and schema init.
+│       ├── classifier_t.py     # ASI precursor signal classification and scoring.
+│       ├── cli_tracker.py      # Tracker entrypoint
+│       ├── core_t.py           # Fetch latest signals on superintelligence topic
+│       └── database_t.py       # Unified precursor signal database with connection pooling and schema init.
 │    
 │   
 ├── schemas/
@@ -228,7 +227,6 @@ CREATE TABLE precursor_signals (
 
 | Phase     | Focus                                                 |
 | --------- | ----------------------------------------------------- |
-| **v0.3**  | Integrate real-world precursors (GitHub, HF)          |
 | **v0.4**  | Scenario weighting and evolutionary selection         |
 | **v0.5**  | Visualization dashboard (Streamlit/FastAPI)           |
 | **v0.6+** | Collaborative web interface and public dataset export |
