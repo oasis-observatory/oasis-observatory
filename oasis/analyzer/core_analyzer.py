@@ -2,7 +2,7 @@
 
 import json
 import numpy as np
-from oasis.s_generator.consistency import NarrativeChecker
+from oasis.common.consistency import NarrativeChecker
 from oasis.analyzer.probability_updater_v2 import update_scenario_probabilities
 from oasis.analyzer.evolution_engine import update_scenario_trends
 

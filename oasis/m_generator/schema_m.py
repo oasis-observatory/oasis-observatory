@@ -6,12 +6,12 @@ import sqlite3
 from oasis.config import settings
 
 def init_multi_asi_table():
-    """Create dedicated table for v3 multi-ASI briefings."""
+    """Create dedicated table for multi-ASI briefings."""
     conn = sqlite3.connect(settings.db_path)
     cur = conn.cursor()
 
     cur.execute('''
-        CREATE TABLE IF NOT EXISTS multi_asi_scenarios (
+        CREATE TABLE IF NOT EXISTS m_scenarios (
             id TEXT PRIMARY KEY,
             title TEXT NOT NULL,
             created TIMESTAMP NOT NULL,

@@ -10,8 +10,8 @@ from typing import Optional
 from oasis.m_generator.core_m import create_multi_asi_scenario
 
 app = typer.Typer(
-    name="v3",
-    help="OASIS v3 — Professional Multi-ASI Composer",
+    name="ASI Scenario Generator v0.1.1",
+    help="Multi-ASI Scenarios Generator",
     add_completion=False,
 )
 

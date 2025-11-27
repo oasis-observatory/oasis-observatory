@@ -1,7 +1,7 @@
 # oasis/m_generator/renderer.py
 from typing import List, Dict
 from datetime import datetime
-from oasis.m_generator.narrator import generate_multi_asi_narrative
+from oasis.m_generator.ollama_m import generate_multi_asi_narrative
 from .interact import Event
 
 def render_interaction(swarm: List[dict], events: List[Event]) -> Dict:

@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 # oasis/s_generator/cli_s.py
 """
-Created on Sat Nov  8 16:06:18 2025
-Updated on Nov 10 2025 by ChatGPT (interactive input support added)
-@author: mike
+CLI entrypoint for precursor-informed scenario generation
 """
 
 import typer
@@ -16,9 +14,7 @@ app = typer.Typer(help="Generate speculative ASI scenarios using core_s pipeline
 
 @app.command()
 def generate(n: int = typer.Option(
-    None,
-    "--n",
-    "-n",
+    default=None,
     help="Number of scenarios to generate. If not provided, you will be prompted."
 )):
     """Generate N ASI scenarios."""

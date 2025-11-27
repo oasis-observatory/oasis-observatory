@@ -1,36 +1,30 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Nov  8 16:05:00 2025
-
-@author: mike
-"""
-
 # oasis/s_generator/core_s.py
+"""
+Core logic for generating ASI scenarios.
+"""
 import uuid
 from datetime import datetime, timezone
-from typing import Dict, Any
-
+from typing import Dict, Any, Union
 from oasis.common.schema import SchemaManager
 from oasis.logger import log
-
-# NEW: Import the parameter sampler
-from oasis.s_generator.params import sample_parameters
-from oasis.s_generator.clients.ollama import generate_narrative
-from oasis.s_generator.timeline import dynamic_timeline
-from oasis.s_generator.consistency import NarrativeChecker
-from oasis.s_generator.storage_s import save_scenario, init_db
-from oasis.s_generator.abbreviator import abbreviate
+from oasis.s_generator.params_s import sample_parameters
+from oasis.common.llm_client import generate_narrative
+from oasis.common.timeline import dynamic_timeline
+from oasis.common.consistency import NarrativeChecker
+from oasis.common.storage import save_scenario, init_db
+from oasis.common.abbreviator import abbreviate
 
 
-def generate_scenario() -> Dict[str, Any] | None:
+def generate_scenario() -> Union [Dict[str, Any], None]:
     """
     Generate one fully valid, schema-compliant ASI scenario.
     End-to-end: sample → prompt → LLM → check → validate → save.
     """
     init_db()
 
-    # 1. Sample parameters (100% schema-safe)
+    # 1. Sample parameters
     params = sample_parameters()
     log.debug("params.sampled", count=len(params))
 
@@ -44,9 +38,7 @@ def generate_scenario() -> Dict[str, Any] | None:
     # 4. Timeline
     timeline_phases = dynamic_timeline()
 
-    # 5. Prompt lives in ollama.py → edit there!
-
-    # 6. Generate narrative
+    # 5. Generate narrative
     success, narrative, model_used = generate_narrative(
         title=title,
         params=params,
@@ -56,14 +48,14 @@ def generate_scenario() -> Dict[str, Any] | None:
         log.error("llm.all_failed")
         return None
 
-    # 7. Consistency check
+    # 6. Consistency check
     checker = NarrativeChecker(params)
     consistent, failures = checker.check(narrative)
     if not consistent:
         log.warning("consistency.failed", failures=failures)
         return None
 
-    # 8. Build final scenario
+    # 7. Build final scenario
     scenario: Dict[str, Any] = {
         "id": scenario_id,
         "title": title,
@@ -139,14 +131,22 @@ def generate_scenario() -> Dict[str, Any] | None:
         }
     }
 
-    # 9. Schema validation
+    # 8. Schema validation
     valid, err = SchemaManager.validate(scenario)
     if not valid:
         log.error("schema.validation.failed", error=err)
         return None
 
-    # 10. Save
-    save_scenario(scenario)
+    # 9. Save
+    save_scenario(
+        table_name="scenarios",
+        params=params,
+        narrative=narrative,
+        timeline=timeline_phases,
+        model_used=model_used,
+        signals=[]  # baseline generator has no precursor signals
+    )
+
     log.info("scenario.generated", title=title, model=model_used, id=scenario_id[:8])
 
     return scenario

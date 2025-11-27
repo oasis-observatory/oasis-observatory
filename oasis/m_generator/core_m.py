@@ -1,12 +1,12 @@
-# oasis/m_generator/v3/core_s.py
+# oasis/m_generator/core_s.py
 import sqlite3
 import uuid
 import json
 import os
 from datetime import datetime, timezone
 
-from oasis.m_generator.narrator import generate_multi_asi_narrative
-from oasis.m_generator.database import save_multi_asi_scenario
+from oasis.m_generator.ollama_m import generate_multi_asi_narrative
+from oasis.m_generator.database_m import save_multi_asi_scenario
 
 
 def get_db_path():

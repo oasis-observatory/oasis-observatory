@@ -17,7 +17,7 @@ def save_multi_asi_briefing(scenario: dict):
     scenario["metadata"]["last_updated"] = now
 
     cur.execute('''
-        INSERT OR REPLACE INTO multi_asi_scenarios 
+        INSERT OR REPLACE INTO m_scenarios 
         (id, title, created, last_updated, asi_count, source, data, threat_index)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ''', (

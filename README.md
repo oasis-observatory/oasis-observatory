@@ -1,7 +1,8 @@
-### 🧠 **OASIS Observatory (Open Artificial Superintelligence Scenario Observatory)**
-[![Project Status: Alpha – MVP (Generator only)](https://img.shields.io/badge/status-alpha%20%28generator%20only%29-red.svg)](https://github.com/oasis-observatory/oasis-observatory/issues)
+---
 
-**Version:** 0.1.1-alpha (MVP: Generator Only)
+# 🧠 **OASIS Observatory (Open Artificial Superintelligence Scenario Observatory)**
+
+**Version:** 0.3-alpha (MVP: Generators, Tracker, Tools. Developmet stage: Analyzer and Dashboars)
 **Status:** Experimental / Under Active Development
 
 ---
@@ -23,24 +24,34 @@ The platform currently focuses on **scenario generation**, simulating possible A
 4. Evaluate generated scenarios with logic and feasibility checks, supported by LLM-based meta-analysis layers.
 
 ---
+## Methodology
 
+A closed-loop probabilistic evolution system for Artificial Superintelligence (ASI) foresight modeling, where: 
+precursor signals act as empirical evidence (real-world weak signals), scenarios are structured hypotheses (simulation-based or LLM-generated futures), 
+and the system evolves the scenario set dynamically, weighting and mutating them according to updated evidence — 
+just like a genetic algorithm (GA) applied to a dynamic world model.
+
+---
 ## 🧩 Module Structure
-
-| Module                    | Description                                                                                               |
-|---------------------------|-----------------------------------------------------------------------------------------------------------|
-| **S-Generator**           | Creates and stores ASI scenario narratives. Generates single-ASI trajectories.                            |
-| **M-Generator**           | Creates and stores ASI scenario narratives. Generates muli-ASI trajectories.                              |
-| **Tracker** *(Planned)*   | Extracts real-world AI development precursors from GitHub, Hugging Face, ArXiv, and blogs.                |
-| **Analyzer** *(Planned)*  | Uses genetic algorithm-style weighting and LLMs to assess scenario plausibility and update probabilities. |
-| **Dashboard** *(Planned)* | Provides visualization, mapping, and analytical tools via Streamlit or FastAPI.                           |
-| **Data**                  | SQLite databases for scenario and precursor storage, reusable for research and creative exploration.      |
+| Module                    | Description                                                                                         |
+|---------------------------|-----------------------------------------------------------------------------------------------------|
+| **S-Generator**           | Creates and stores speculative scenario narratives for single ASI.                                  |
+| **M-Generator**           | Creates and stores scenario narratives for muli-ASI coexistence.                                    |
+| **EV-Generator**          | Creates and stores evidence based (ingests precursor signals) scenario narratives for single ASI.   |
+| **Tracker**               | Extracts real-world AI development precursors from GitHub, ArXiv, (TODO Hugging Face, and blogs).   |
+| **Analyzer** *(Planned)*  | Uses genetic algorithm-style weighting and LLMs to assess scenario and update probabilities.        |
+| **Dashboard** *(Planned)* | Provides visualization, mapping, and analytical tools via Streamlit or FastAPI.                     |
+| **Utils**                 | PDF report generation and other utils.                                                              |
+| **Data**                  | SQLite databases for scenario and precursor storage, reusable for research and creative exploration.|
+|---------------------------------------------------------------------------------------------------------------------------------|
 ---
 
 ## 🗂️ File Map
 ```
 oasis-observatory/             # Root folder
 ├── data/                      # Data folder
-│   ├── asi_scenarios.db       # SQLite database (auto-created) for single-ASI and multi-ASI scenarios
+│   ├── asi_scenarios.db       # SQLite database (auto-created) for single-ASI (precursor-based and fully speculative) and multi-ASI scenarios
+│   ├── db_migrations.py       # Util for changing database tables - adding columns (temporary solution)
 │   ├── deduplicate_signals.py # Util for deduplication of ASI precursors (temporary solution)
 │   └── precursor_signals.db   # SQLite database (auto-created) for precursors of ASI from the real world data
 │
@@ -50,49 +61,56 @@ oasis-observatory/             # Root folder
 │   ├── logger.py              # structlog setup for consistent logging
 │   │
 │   ├── common/                # Shared by different modules
+│   │   ├── __init__.py 
+│   │   ├── abbreviator.py     # Creates unique scenario IDs for single-ASI scenarios
+│   │   ├── consistency.py     # NarrativeChecker for internal logic
 │   │   ├── db.py              # Centralized database paths and connection utilities. Resolves paths relative to project root regardless of cwd.
-│   │   └── schema.py          # SchemaManager: JSON Schema validation
+│   │   ├── llm_client.py       # LLM interface for narrative generation
+│   │   ├── storage.py         # Initialize DB and save generated scenarios into asi_scenarios.db
+│   │   ├── schema.py          # SchemaManager: JSON Schema validation
+│   │   └── timeline.py        # Generate dynamic timelines (2025–2100)
 │   │
 │   ├── analyzer/              # Scenario weighting via genetic approach
 │   │   ├── cli_analyzer.py    # Link precursor signals to scenarios based on tags, text, and score.
 │   │   ├── core_analyzer.py   # Evaluates scenario plausibility and systemic complexity. Estimates systemic complexity based on event density & diversity.
 │   │   └── linkage.py         # Signal→scenario links.
 │   │
-│   ├─ dashboard/             # Visualization frontend
-│   │   ├── asi_scenario_viewer.py # 
+│   ├─ dashboard/               # Visualization frontend
+│   │   ├── dashboard.py        # TODO
+│   │   ├── scenario_viewer.py  # TODO
 │   │   └── precursor_viewer.py # TODO
 │   │   
-│   ├── m_generator/           # Multi-ASI generation module
+│   ├── ev_generator/                  # Evidence-based (precursor-influenced) scenario generation for a single ASI
+│   │   ├── __init__.py
+│   │   ├── cli_ev.py                  # CLI entrypoint for evidence-based scenario generation
+│   │   ├── core_ev.py                 # Main orchestrator
+│   │   └── params_ev.py               # Adjust parameters based on precursor signals
+│   │   
+│   ├── m_generator/           # Multi-ASI generation module (TODO - selecting speculative or evidence-based scenarios)
 │   │   ├── __init__.py
 │   │   ├── cli_m.py           # CLI entrypoint for multi-ASI generation
 │   │   ├── core_m.py          # Spawn and manage multiple ASIs from the ASI_scenario database
-│   │   ├── database.py        # DB integration for multi-ASI data
+│   │   ├── database_m.py      # DB integration for multi-ASI data
 │   │   ├── interact.py        # Detect and simulate multiple ASI interaction patterns
-│   │   ├── narrator.py        # Generates multi-ASI narrative
+│   │   ├── ollama_m.py        # Generates multi-ASI narrative
 │   │   ├── renderer.py        # Turn interaction events into narrative output
 │   │   ├── schema_m.py        # Creates and activates a dedicated table for multi-ASI briefings
 │   │   └── storage_m.py       # Save multi-ASI scenarios
 │   │
-│   ├── s_generator/           # Core scenario generation module
-│   │   ├── clients/
-│   │   │   └── ollama.py      # LLM interface for narrative generation
+│   ├── s_generator/           # Speculative scenario generation (single ASI)
 │   │   ├── __init__.py
-│   │   ├── abbreviator.py     # Creates unique scenario IDs
-│   │   ├── batch_generate.py  # Batch scenario generation
-│   │   ├── cli.py             # CLI entrypoint
-│   │   ├── consistency.py     # NarrativeChecker for internal logic
-│   │   ├── core.py            # Main orchestrator: generate_scenario()
-│   │   ├── params.py          # Randomly sample scenario parameters
-│   │   ├── storage.py         # Initialize DB and save generated scenarios
-│   │   └── timeline.py        # Generate dynamic timelines (2025–2100)
+│   │   ├── cli_s.py           # CLI entrypoint
+│   │   ├── core_s.py          # Main orchestrator: generate_scenario()
+│   │   └── params_s.py        # Randomly sample scenario parameters
 │   │
 │   └── tracker/               # Precursors scrapers and evaluators (GitHub/HF/Arxiv)
 │       ├── __init__.py
-│       ├── classifier.py      # ASI precursor signal classification and scoring.
+│       ├── classifier_t.py      # ASI precursor signal classification and scoring.
 │       ├── cli_tracker.py     # Tracker entrypoint
 │       ├── core_t.py          # Fetch latest signals on superintelligence topic
 │       └── database_t.py      # Unified precursor signal database with connection pooling and schema init.
-│
+│    
+│   
 ├── schemas/
 │   └── asi_scenario_v1.json   # JSON schema for scenario validation
 │
@@ -100,46 +118,100 @@ oasis-observatory/             # Root folder
 │   ├── test_generator.py      # REWRITE
 │   └── test_tracker.py        # REWRITE
 │
+├── tools/
+│   ├── generate_report.py      # Generating scenario reports with diagrams
+│   └── reports/                # PDF reports, containing 10 most diverse scenarios with visualizations
+│
 ├── .env.example
 ├── pyproject.toml
 └── README.md                  # You are here
 ```
+---
+## Execution flow (REWRITE, NOW SINGLE-ASI GENERATOR ONLY FOR RANDOMIZED AND PRECURSOR-BASED PARAMETERS):
+
+    cli_s.py
+        CLI entry: oasis generate [--count N]
+
+    core_s.py
+        sample_parameters() → Random ASI attributes (S-Gen), e.g., origin, emergence type or based on the precursors from db (EV-Gen)
+        abbreviate(params) → Generate unique scenario ID
+        dynamic_timeline() → 2025–2100 timeline
+        ollama.generate_scenario() → Request LLM-generated narrative
+        NarrativeChecker.check() → Consistency check
+        SchemaManager.validate() → JSON Schema validation
+        save_scenario() → Store in SQLite
+
+    llm_client.py
+        Calls local Ollama LLMs (llama3:8b, gemma2:9b, mistral:7b)
+        Returns ~350-word narrative text
+
+    storage.py
+        Writes validated scenario into data/asi_scenarios.db
 
 ---
+## Tracker
 
-**Execution flow:**
-
-1. **`cli.py`**
-
-   * CLI entry: `oasis generate [--count N]`
-2. **`core.py`**
-
-   * `sample_parameters()` → Random ASI attributes (e.g., origin, emergence type)
-   * `abbreviate(params)` → Generate unique scenario ID
-   * `dynamic_timeline()` → 2025–2100 timeline
-   * `ollama.generate_scenario()` → Request LLM-generated narrative
-   * `NarrativeChecker.check()` → Consistency check
-   * `SchemaManager.validate()` → JSON Schema validation
-   * `save_scenario()` → Store in SQLite
-3. **`ollama.py`**
-
-   * Calls local Ollama LLMs (`llama3:8b`, `gemma2:9b`, `mistral:7b`)
-   * Returns ~350-word narrative text
-4. **`storage.py`**
-
-   * Writes validated scenario into `data/asi_scenarios.db`
+oasis track all
+       ↓
+  core_t.py → fetch → classify → store
+       ↓
+  precursor_signals.db ← linked via signal_scenario_links (v0.4)
+       ↓
+  analyzer/linkage.py → matches signals → scenarios
+       ↓
+  dashboard/asi_scenario_viewer.py → "This scenario now has +7 new signals"
 
 ---
+## Analyzer Module – How Signals Connect to Scenarios
 
+TODO
+
+
+---
 ## 💾 Data Storage
 
 * **Database:** `data/asi_scenarios.db`
 * **Table:** `scenarios`
+  * `id` – Text, primary key
+  * `title` – Text, Scenario title (abbreviated)
+  * `data` – JSON document (parameters, timeline, narrative, metadata)
 * **Table:** `multi_asi_scenarios`
-
+  * `id` – Text, primary key
+  * `created` – Timestamp
+  * `last_updated` – Timestamp
+  * `asi_count` – Integer, number of interacting ASIs
+  * `source` – Text, source of the scenario (project, version)
   * `id` – Integer primary key
   * `title` – Scenario title (abbreviated)
   * `data` – JSON document (parameters, timeline, narrative, metadata)
+  * `threat_index` – Real
+
+* **Database:** `data/precursor_signals.db`
+
+## Database Specifications
+
+OASIS uses **three SQLite databases** — lightweight, zero-config, and perfect for real-time observability.
+
+### 1. `data/precursor_signals.db` – Real-World Signals
+Stores GitHub repos, papers, news — anything that hints at ASI progress.
+
+```sql
+CREATE TABLE precursor_signals (
+    id            TEXT PRIMARY KEY,        -- UUID or GitHub repo ID
+    source        TEXT,                    -- "github", "arxiv", "news"
+    title         TEXT,                    -- Repo name or paper title
+    description   TEXT,                    -- Short description
+    stars         INTEGER,                 -- GitHub stars (if applicable)
+    authors       TEXT,                    -- JSON array or comma-separated
+    url           TEXT,                    -- Source URL
+    published     TEXT,                    -- ISO date
+    pdf_url       TEXT,                    -- If paper
+    signal_type   TEXT,                    -- "technical", "funding", "policy"
+    score         REAL,                    -- Relevance score (1.0–10.0)
+    tags          TEXT,                    -- JSON array: ["asi_direct", "alignment"]
+    raw_data      TEXT,                    -- Full JSON from API (readme, topics, etc.)
+    collected_at  TEXT                     -- ISO timestamp
+);
 
 ---
 

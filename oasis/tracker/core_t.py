@@ -1,17 +1,15 @@
 # oasis/tracker/core_t.py
 
-
 import time
 import uuid
 import json
 import requests
-import time, random
 import feedparser
 import urllib.parse
-from datetime import datetime, timezone, timedelta
-from typing import List, Dict, Any
+from datetime import datetime, timezone
+from typing import Dict, Any
 
-from oasis.tracker.classifier import classify_and_score
+from oasis.tracker.classifier_t import classify_and_score
 from oasis.tracker.database_t import init_precursor_db, get_connection
 
 
@@ -80,7 +78,7 @@ def _store_signal(signal_record: Dict[str, Any]) -> None:
 def safe_entry_field(entry, field, default=None):
     return getattr(entry, field, entry.get(field, default)) if hasattr(entry, field) or field in entry else default
 
-def fetch_and_store_github_signals(limit: int = 20) -> List[Dict]:
+def fetch_and_store_github_signals(limit: int = 20) -> int:
     """Fetch GitHub repos and store new signals."""
     url = "https://api.github.com/search/repositories"
     query = "(superintelligence OR artificial general intelligence OR ASI OR AGI) language:Python pushed:>2024-01-01"
@@ -129,51 +127,74 @@ def fetch_and_store_github_signals(limit: int = 20) -> List[Dict]:
         time.sleep(0.5)  # Stay under GitHub secondary rate limit
 
     print(f"github: {stored} new/updated signals stored")
-    return []  # not returning full list to save memory
+    return stored
 
-
-def fetch_and_store_arxiv_signals(limit: int = 15) -> List[Dict]:
+def fetch_and_store_arxiv_signals(limit: int = 15) -> int:
     """Fetch latest arXiv papers on superintelligence."""
-    cutoff = (datetime.now(timezone.utc) - timedelta(days=90)).strftime("%Y-%m-%d")
-    query = f"submittedDate:>{cutoff} (superintelligence OR artificial general intelligence OR AGI OR ASI)"
+    query = (
+        "superintelligence OR ASI OR AGI OR \"artificial general intelligence\" OR "
+        "\"autonomous agent\" OR \"self-improving\""
+    )
     encoded_query = urllib.parse.quote(query)
-    url = f"http://export.arxiv.org/api/query?search_query={encoded_query}&max_results={limit}&sortBy=submittedDate&sortOrder=descending"
-
-    feed = feedparser.parse(url)
-    entries = feed.entries or []
+    base_url = f"http://export.arxiv.org/api/query?search_query={encoded_query}&max_results={limit}&sortBy=submittedDate&sortOrder=descending"
 
     stored = 0
-    for entry in entries:
-        if _signal_exists("arxiv", entry.link):
-            continue
+    for attempt in range(3):  # Retry up to 3x
+        try:
+            feed = feedparser.parse(base_url)
+            if feed.bozo:  # Parse error (e.g., invalid XML)
+                raise ValueError(f"Feed parse error: {feed.get('bozo_exception', 'Unknown')}")
+            entries = feed.entries or []
+            if not entries and attempt == 0:
+                print(f"arXiv API returned 0 entries (possible transient error); retrying...")
+                time.sleep(2 ** attempt)  # Exponential backoff: 1s, 2s
+                continue
 
-        metadata = {
-            "title": getattr(entry, "title", "Untitled"),
-            "description": getattr(entry, "summary", "")[:2000],
-            "url": getattr(entry, "link", ""),
-            "authors": ", ".join(getattr(a, "name", "") for a in getattr(entry, "authors", [])),
-            "published": safe_entry_field(entry, "published", safe_entry_field(entry, "updated"))
-        }
+            for entry in entries:
+                # Skip if it's the error page (heuristic)
+                if "error" in (getattr(entry, "title", "").lower() or getattr(entry, "summary", "").lower()):
+                    print("Skipping arXiv error page entry.")
+                    continue
 
-        classified = classify_and_score(metadata)
+                if _signal_exists("arxiv", entry.link):
+                    continue
 
-        signal_record = {
-            "id": str(uuid.uuid4()),
-            "source": "arxiv",
-            "title": metadata["title"],
-            "description": metadata["description"],
-            "authors": metadata["authors"],
-            "url": metadata["url"],
-            "published": metadata["published"],
-            "pdf_url": metadata["url"].replace("/abs/", "/pdf/") + ".pdf",
-            "signal_type": classified["signal_type"],
-            "score": classified["score"],
-            "tags": json.dumps(classified["tags"]),
-            "raw_data": json.dumps(metadata),
-            "collected_at": datetime.now(timezone.utc).isoformat(timespec="seconds")
-        }
-        _store_signal(signal_record)
-        stored += 1
+                metadata = {
+                    "title": getattr(entry, "title", "Untitled"),
+                    "description": getattr(entry, "summary", "")[:2000],
+                    "url": getattr(entry, "id", entry.link),  # Use .id if available (canonical)
+                    "authors": ", ".join(getattr(a, "name", "") for a in getattr(entry, "authors", [])),
+                    "published": safe_entry_field(entry, "published", safe_entry_field(entry, "updated"))
+                }
 
-    print(f"arxiv: {stored} new/updated signals stored")
-    return []
+                classified = classify_and_score(metadata)
+
+                signal_record = {
+                    "id": str(uuid.uuid4()),
+                    "source": "arxiv",
+                    "title": metadata["title"],
+                    "description": metadata["description"],
+                    "authors": metadata["authors"],
+                    "url": metadata["url"],
+                    "published": metadata["published"],
+                    "pdf_url": metadata["url"].replace("/abs/", "/pdf/") + ".pdf" if metadata["url"] else "",
+                    "signal_type": classified["signal_type"],
+                    "score": classified["score"],
+                    "tags": json.dumps(classified["tags"]),
+                    "raw_data": json.dumps(metadata),
+                    "collected_at": datetime.now(timezone.utc).isoformat(timespec="seconds")
+                }
+                _store_signal(signal_record)
+                stored += 1
+
+            print(f"arXiv: {stored} new/updated signals stored")
+            return stored  # Success – exit retry loop
+
+        except Exception as e:
+            print(f"arXiv fetch attempt {attempt + 1} failed: {e}")
+            if attempt == 2:
+                print("All retries exhausted – skipping arXiv this sweep.")
+                return 0
+            time.sleep(2 ** attempt)
+
+    return stored

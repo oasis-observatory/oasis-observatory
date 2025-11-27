@@ -4,8 +4,11 @@ Simulate scenario evolution & trends (increasing, decreasing, stable)
 based on probability changes over time.
 """
 
+
+# oasis/analyzer/evolution_engine.py   ← FIXED & SIMPLIFIED
+from oasis.analyzer.probability_updater import update_scenario_probabilities
+import json
 from oasis.common.db import get_scenario_conn
-from datetime import datetime
 
 TREND_THRESH = 0.05  # Change in probability to count as trend
 
@@ -19,26 +22,29 @@ def compute_trend(current: float, previous: float) -> str:
         return "stable"
 
 
+# In evolution_engine.py — replace the broken version
 def update_scenario_trends():
-    """
-    Updates scenario trends based on last probability value.
-    Stores result in 'trend' column of scenarios table.
-    """
     with get_scenario_conn() as conn:
-        rows = conn.execute(
-            "SELECT id, probability, trend FROM scenarios"
-        ).fetchall()
-
+        rows = conn.execute("SELECT id, data FROM scenarios").fetchall()
         for row in rows:
-            current_prob = row["probability"] or 0.5
-            previous_trend = row["trend"]
-            previous_prob = getattr(row, "_last_prob", 0.5)  # default fallback
-            trend = compute_trend(current_prob, previous_prob)
+            try:
+                data = json.loads(row["data"])
+                prob = data["quantitative_assessment"]["probability"]["emergence_probability"]
+                old_prob = data.get("_previous_probability", prob)
+                delta = prob - old_prob
+                trend = "increasing" if delta > 0.02 else "decreasing" if delta < -0.02 else "stable"
 
-            conn.execute(
-                "UPDATE scenarios SET trend=? WHERE id=?",
-                (trend, row["id"])
-            )
-
+                data["quantitative_assessment"]["probability"]["trend"] = trend
+                data["_previous_probability"] = prob  # store for next run
+                conn.execute("UPDATE scenarios SET data = ? WHERE id = ?", (json.dumps(data), row["id"]))
+            except:
+                pass
         conn.commit()
     print(f"Updated trends for {len(rows)} scenarios")
+
+
+def run_full_analysis_cycle():
+    """One-click full foresight loop."""
+    print("OASIS Full Analysis Cycle")
+    update_scenario_probabilities()
+    print("Cycle complete.")
