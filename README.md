@@ -8,7 +8,7 @@
 
 ## Overview
 
-**OASIS Observatory** is an open research platform for **simulating, tracking, and analyzing potential trajectories of Artificial Superintelligence (ASI)**.
+**OASIS-2100 Observatory** is an open research platform for **simulating, tracking, and analyzing potential trajectories of Artificial Superintelligence (ASI)**.
 
 It integrates:
 
