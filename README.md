@@ -1,6 +1,6 @@
-# OASIS Observatory
+# OASIS-2100 Observatory
 
-### *Open Artificial Superintelligence Scenario Observatory*
+### *Open ASI Scenario Observatory — Foresight to 2100*
 **Version:** 0.3 (MVP: Generators, Tracker, Report Generator) 
 **Status:** Experimental — Under Active Development
 
@@ -355,6 +355,6 @@ OASIS Observatory does not predict future. It offers structured exploration of A
 
 # Citation
 
-> Bukhtoyarov, M. (2025). *OASIS Observatory: Open Artificial Superintelligence Scenario Modeling Platform (v0.3).* GitHub: [https://github.com/oasis-observatory/oasis-observatory](https://github.com/oasis-observatory/oasis-observatory)
+> Bukhtoyarov, M. (2025). *Open ASI Scenario Observatory: Foresight to 2100 (v0.3).* GitHub: [https://github.com/oasis-observatory/oasis-observatory](https://github.com/oasis-observatory/oasis-observatory)
 
 ---
